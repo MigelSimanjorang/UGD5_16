@@ -1,14 +1,22 @@
 package com.example.toko
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 
 class profileActivity : AppCompatActivity() {
     lateinit var mBundle: Bundle
+    lateinit var ListSepatu: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        ListSepatu = findViewById(R.id.ListSepatu)
+        ListSepatu.setOnClickListener{
+            val move = Intent(this, ShowSepatu::class.java)
+            startActivity(move)
+        }
         mBundle = intent.getBundleExtra("User")!!
         setData()
     }

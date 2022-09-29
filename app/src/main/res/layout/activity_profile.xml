@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilSessionNama"
         android:layout_width="0dp"
@@ -47,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Username" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -129,5 +131,14 @@
             android:layout_margin="16dp"
             android:hint="Nomor Telepon" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/ListSepatu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List Sepatu yang dibeli"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="633dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

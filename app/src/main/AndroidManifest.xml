@@ -14,6 +14,18 @@
         android:theme="@style/Theme.Toko"
         tools:targetApi="31">
         <activity
+            android:name=".EditSepatu"
+            android:exported="false" />
+        <activity
+            android:name=".ShowSepatu"
+            android:exported="false" />
+        <activity
+            android:name=".ListSepatuAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ListSepatuActivity"
+            android:exported="false" />
+        <activity
             android:name=".profileActivity"
             android:exported="false" />
         <activity
