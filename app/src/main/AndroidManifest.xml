@@ -23,9 +23,6 @@
             android:name=".ListSepatuAdapter"
             android:exported="false" />
         <activity
-            android:name=".ListSepatuActivity"
-            android:exported="false" />
-        <activity
             android:name=".profileActivity"
             android:exported="false" />
         <activity
