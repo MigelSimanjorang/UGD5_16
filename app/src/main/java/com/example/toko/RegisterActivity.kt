@@ -115,7 +115,7 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("noTelepon",inputNoTelepon.text.toString())
             moveHome.putExtra("register",mBundle)
 
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ezz)
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
             createNotificationChannel()
             sendNotification1(inputUsername.text.toString(),Bitmap.createScaledBitmap(bitmap,300,100,false))
 
@@ -151,7 +151,7 @@ class RegisterActivity : AppCompatActivity() {
         val actionIntent = PendingIntent.getBroadcast(this,0,broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_REGISTER)
-            .setSmallIcon(R.drawable.ic_baseline_arrow_back)
+            .setSmallIcon(R.drawable.ic_baseline_arrow_back_24)
             .setContentTitle("Registration Success")
             .setContentText("Hello " + username + ", Your Registration Success !")
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
