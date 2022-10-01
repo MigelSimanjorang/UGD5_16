@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/kuning"
     tools:context=".RegisterActivity">
     <ImageView
         android:id="@+id/gambarProfil"
@@ -14,6 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@color/white"
             android:text="Username"
             android:hint="Username" />
 
@@ -47,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@color/white"
             android:hint="Username" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -67,6 +71,7 @@
             android:id="@+id/etSessionEmailLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:hint="Email"
             android:text="Email"
             android:layout_margin="16dp"/>
@@ -74,6 +79,7 @@
             android:id="@+id/etSessionEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:hint="Email"
             android:layout_margin="16dp"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -94,6 +100,7 @@
             android:id="@+id/etSessionTanggalLahirLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:hint="Tanggal Lahir"
             android:text="Tanggal Lahir"
             android:layout_margin="16dp"/>
@@ -102,6 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Tanggal Lahir"
+            android:background="@color/white"
             android:layout_margin="16dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -120,6 +128,7 @@
             android:id="@+id/etSessionNomorTeleponLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:hint="Nomor Telepon"
             android:text="Nomor Telepon"
             android:layout_margin="16dp"/>
@@ -129,6 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@color/white"
             android:hint="Nomor Telepon" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,9 +146,12 @@
         android:id="@+id/ListSepatu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:backgroundTint="@color/black"
         android:text="List Sepatu yang dibeli"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="633dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
