@@ -5,6 +5,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <ImageView
@@ -24,7 +25,6 @@
         android:layout_marginTop="16dp"
         android:text="REGISTER"
         android:textColor="@color/black"
-        android:textStyle="bold"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -154,8 +154,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/krem"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/black"
             android:text="REGISTER" />
     </LinearLayout>
 
