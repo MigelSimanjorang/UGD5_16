@@ -16,7 +16,6 @@ listener: OnAdapterListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             NoteViewHolder {
         return NoteViewHolder(
-
             LayoutInflater.from(parent.context).inflate(R.layout.activity_list_sepatu_adapter ,parent, false)
         )
     }

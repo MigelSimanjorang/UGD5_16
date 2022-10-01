@@ -15,11 +15,9 @@ import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.isEmpty
 import com.example.toko.databinding.ActivityRegisterBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -117,7 +115,7 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("noTelepon",inputNoTelepon.text.toString())
             moveHome.putExtra("register",mBundle)
 
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ezz)
             createNotificationChannel()
             sendNotification1(inputUsername.text.toString(),Bitmap.createScaledBitmap(bitmap,300,100,false))
 
@@ -152,9 +150,8 @@ class RegisterActivity : AppCompatActivity() {
         broadcastIntent.putExtra("toastMessage","Hello " + username + ", Your Registration Success !")
         val actionIntent = PendingIntent.getBroadcast(this,0,broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_REGISTER)
-            .setSmallIcon(R.drawable.ic_baseline_arrow_back_24)
+            .setSmallIcon(R.drawable.ic_baseline_arrow_back)
             .setContentTitle("Registration Success")
             .setContentText("Hello " + username + ", Your Registration Success !")
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
