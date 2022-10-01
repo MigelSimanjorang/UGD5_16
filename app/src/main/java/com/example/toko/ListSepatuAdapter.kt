@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toko.R
 import com.example.toko.room.User
+import kotlinx.android.synthetic.main.activity_list_sepatu_adapter.view.*
 import kotlinx.android.synthetic.main.activity_list_sepatu_adapter .view.*
 
 class ListSepatuAdapter (private val notes: ArrayList<User>, private val
