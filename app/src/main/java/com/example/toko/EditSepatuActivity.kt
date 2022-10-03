@@ -1,26 +1,33 @@
 package com.example.toko
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.example.toko.room.Buy
 import com.example.toko.room.Constant
-import com.example.toko.room.User
-import com.example.toko.room.UserDB
+import com.example.toko.room.SepatuDB
 import kotlinx.android.synthetic.main.activity_edit_sepatu.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class EditSepatuActivity : AppCompatActivity() {
-    val db by lazy { UserDB(this) }
+    val db by lazy { SepatuDB(this) }
+
+    private val id = "idKey"
+    private val myPreference = "myPref"
+    var sharedPreferences: SharedPreferences? = null
     private var noteId: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getSupportActionBar()?.hide()
         setContentView(R.layout.activity_edit_sepatu)
         setupView()
         setupListener()
-//
+
         Toast.makeText(this, noteId.toString(),Toast.LENGTH_SHORT).show()
     }
     fun setupView(){
@@ -44,18 +51,16 @@ class EditSepatuActivity : AppCompatActivity() {
     private fun setupListener() {
         button_save.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                db.userDao().addUser(
-                    User(0,edit_title.text.toString(),
-                        edit_note.text.toString())
+                db.buyDao().addBuy(
+                    Buy(0,edit_title.text.toString(), edit_note.text.toString())
                 )
                 finish()
             }
         }
         button_update.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                db.userDao().updateUser(
-                    User(noteId, edit_title.text.toString(),
-                        edit_note.text.toString())
+                db.buyDao().updateBuy(
+                    Buy(noteId, edit_title.text.toString(), edit_note.text.toString())
                 )
                 finish()
             }
@@ -64,7 +69,7 @@ class EditSepatuActivity : AppCompatActivity() {
     fun getNote() {
         noteId = intent.getIntExtra("intent_id", 0)
         CoroutineScope(Dispatchers.IO).launch {
-            val notes = db.userDao().getUser(noteId)[0]
+            val notes = db.buyDao().getBuy(noteId)[0]
             edit_title.setText(notes.title)
             edit_note.setText(notes.note)
         }

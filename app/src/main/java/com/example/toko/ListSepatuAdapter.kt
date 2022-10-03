@@ -5,23 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.toko.R
+import com.example.toko.room.Buy
 import com.example.toko.room.User
 import kotlinx.android.synthetic.main.activity_list_sepatu_adapter.view.*
-import kotlinx.android.synthetic.main.activity_list_sepatu_adapter .view.*
 
-class ListSepatuAdapter (private val notes: ArrayList<User>, private val
-listener: OnAdapterListener) :
+class ListSepatuAdapter (private val notes: ArrayList<Buy>, private val listener: OnAdapterListener) :
     RecyclerView.Adapter<ListSepatuAdapter.NoteViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            NoteViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
-
             LayoutInflater.from(parent.context).inflate(R.layout.activity_list_sepatu_adapter ,parent, false)
         )
     }
-    override fun onBindViewHolder(holder: NoteViewHolder, position:
-    Int) {
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes[position]
         holder.view.text_title.text = note.title
         holder.view.text_title.setOnClickListener{
@@ -38,14 +33,14 @@ listener: OnAdapterListener) :
     inner class NoteViewHolder( val view: View) :
         RecyclerView.ViewHolder(view)
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(list: List<User>){
+    fun setData(list: List<Buy>){
         notes.clear()
         notes.addAll(list)
         notifyDataSetChanged()
     }
     interface OnAdapterListener {
-        fun onClick(note: User)
-        fun onUpdate(note: User)
-        fun onDelete(note: User)
+        fun onClick(note: Buy)
+        fun onUpdate(note: Buy)
+        fun onDelete(note: Buy)
     }
 }

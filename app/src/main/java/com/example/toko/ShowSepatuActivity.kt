@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.toko.room.Buy
 import com.example.toko.room.Constant
-import com.example.toko.room.User
-import com.example.toko.room.UserDB
+import com.example.toko.room.SepatuDB
 import kotlinx.android.synthetic.main.activity_show_sepatu.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ShowSepatuActivity : AppCompatActivity() {
-    val db by lazy { UserDB(this) }
+    val db by lazy { SepatuDB(this) }
     lateinit var noteAdapter: ListSepatuAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +31,15 @@ class ShowSepatuActivity : AppCompatActivity() {
     //cara panggil id dengan memanggil fungsi intetnEdit.
     //jika pada fungsi interface adapterListener berubah, maka object akan memerah error karena penambahan fungsi.
     private fun setupRecyclerView() {
-        noteAdapter = ListSepatuAdapter(arrayListOf(), object :
-            ListSepatuAdapter.OnAdapterListener{
-            override fun onClick(note: User) {
+        noteAdapter = ListSepatuAdapter(arrayListOf(), object : ListSepatuAdapter.OnAdapterListener{
+            override fun onClick(note: Buy) {
                 Toast.makeText(applicationContext, note.title, Toast.LENGTH_SHORT).show()
                 intentEdit(note.id,Constant.TYPE_READ)
             }
-            override fun onUpdate(note: User) {
+            override fun onUpdate(note: Buy) {
                 intentEdit(note.id, Constant.TYPE_UPDATE)
             }
-            override fun onDelete(note: User) {
+            override fun onDelete(note: Buy) {
                 deleteDialog(note)
             }
         })
@@ -49,7 +48,7 @@ class ShowSepatuActivity : AppCompatActivity() {
             adapter = noteAdapter
         }
     }
-    private fun deleteDialog(note: User){
+    private fun deleteDialog(note: Buy){
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.apply {
             setTitle("Confirmation")
@@ -62,7 +61,7 @@ class ShowSepatuActivity : AppCompatActivity() {
             { dialogInterface, i ->
                 dialogInterface.dismiss()
                 CoroutineScope(Dispatchers.IO).launch {
-                    db.userDao().deleteUser(note)
+                    db.buyDao().deleteBuy(note)
                     loadData()
                 }
             })
@@ -76,7 +75,7 @@ class ShowSepatuActivity : AppCompatActivity() {
     //untuk load data yang tersimpan pada database yang sudah create data
     fun loadData() {
         CoroutineScope(Dispatchers.IO).launch {
-            val notes = db.userDao().getUser()
+            val notes = db.buyDao().getBuy()
             Log.d("ShowFamily","dbResponse: $notes")
             withContext(Dispatchers.Main){
                 noteAdapter.setData(notes)
