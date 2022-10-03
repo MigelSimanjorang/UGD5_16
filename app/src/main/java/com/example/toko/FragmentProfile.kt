@@ -10,7 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.toko.databinding.FragmentProfileBinding
-import com.example.toko.room.UserDB
+import com.example.toko.room.SepatuDB
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FragmentProfile : Fragment() {
-    val db by lazy { activity?.let { UserDB(it) } }
+    val db by lazy { activity?.let { SepatuDB(it) } }
     private val id = "idKey"
     private val myPreference = "myPref"
     var sharedPreferences: SharedPreferences? = null
@@ -36,18 +37,16 @@ class FragmentProfile : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val btnEditData : Button = view.findViewById(R.id.btnEditData)
         sharedPreferences = activity?.getSharedPreferences(myPreference, Context.MODE_PRIVATE)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val family = db?.userDao()?.(sharedPreferences!!.getString(id,"")!!.toInt())?.get(0)
-            binding.nama.setText(family?.nama)
-            binding.email.setText(family?.emaill)
-            binding.noTelp.setText(family?.noTelepon)
-            binding.tglLahir.setText(family?.TanggalLahir)
-
+            val user = db?.userDao()?.getUser(sharedPreferences!!.getString(id,"")!!.toInt())?.get(0)
+            binding.nama.setText(user?.username)
+            binding.email.setText(user?.email)
+            binding.noTelp.setText(user?.noTelepon)
+            binding.tglLahir.setText(user?.tanggalLahir)
             binding.btnEditData.setOnClickListener {
-                val moveEdit = Intent(this@FragmentProfile, FragmentEditProfile::class.java)
+                val moveEdit = Intent(activity, EditSepatuActivity::class.java)
                 startActivity(moveEdit)
                 activity?.finish()
             }

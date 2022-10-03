@@ -18,8 +18,6 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
-        // Menyembunyikan Action Bar
         getSupportActionBar()?.hide()
 
         changeFragment(FragmentHome())
@@ -39,17 +37,13 @@ class HomeActivity : AppCompatActivity() {
                     return@setOnNavigationItemReselectedListener
                 }
                 R.id.menu_profile -> {
-                    var moveProfile: Intent
-                    moveProfile = Intent(this, profileActivity::class.java)
-                    moveProfile.putExtra("User", intent.getBundleExtra("User"))
-                    startActivity(moveProfile)
+                    changeFragment(FragmentProfile())
                     return@setOnNavigationItemReselectedListener
                 }
             }
         }
     }
 
-    // Method untuk mengubah fragment
     fun changeFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container,fragment)
