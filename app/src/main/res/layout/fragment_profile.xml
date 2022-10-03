@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:layout_gravity="center"
-                android:fontFamily="@font/springtimeromance"
+                android:fontFamily="sans-serif"
                 android:text="Profile"
                 android:textColor="#1C3879"
                 android:textSize="25sp" />
@@ -99,12 +99,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/springtimeromance"
+                    android:fontFamily="sans-serif"
                     android:text="Nama"
                     android:textColor="#1C3879" />
 
                 <TextView
-                    android:id="@+id/nama"
+                    android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Migel Simanjorang"
@@ -146,7 +146,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/springtimeromance"
+                    android:fontFamily="sans-serif"
                     android:text="Email"
                     android:textColor="#1C3879" />
 
@@ -189,12 +189,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/springtimeromance"
+                    android:fontFamily="sans-serif"
                     android:text="No Telepon"
                     android:textColor="#1C3879" />
 
                 <TextView
-                    android:id="@+id/noTelp"
+                    android:id="@+id/noTelepon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="082221878123"
@@ -233,12 +233,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/springtimeromance"
+                    android:fontFamily="sans-serif"
                     android:text="Tanggal Lahiir"
                     android:textColor="#1C3879" />
 
                 <TextView
-                    android:id="@+id/tglLahir"
+                    android:id="@+id/tanggalLahir"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="20/9/2022"
@@ -268,7 +268,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:backgroundTint="@color/black"
-            android:fontFamily="@font/springtimeromance"
+            android:fontFamily="sans-serif"
             android:text="Edit Data"
 
             android:textColor="#EAE3D2" />
