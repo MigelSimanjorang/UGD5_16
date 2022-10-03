@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:layout_gravity="center"
-                android:fontFamily="@font/SpringtimeRomance"
+                android:fontFamily="@font/springtimeromance"
                 android:text="Profile"
                 android:textColor="#1C3879"
                 android:textSize="25sp" />
@@ -99,7 +99,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/SpringtimeRomance"
+                    android:fontFamily="@font/springtimeromance"
                     android:text="Nama"
                     android:textColor="#1C3879" />
 
@@ -146,7 +146,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/SpringtimeRomance"
+                    android:fontFamily="@font/springtimeromance"
                     android:text="Email"
                     android:textColor="#1C3879" />
 
@@ -189,7 +189,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/SpringtimeRomance"
+                    android:fontFamily="@font/springtimeromance"
                     android:text="No Telepon"
                     android:textColor="#1C3879" />
 
@@ -233,7 +233,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/SpringtimeRomance"
+                    android:fontFamily="@font/springtimeromance"
                     android:text="Tanggal Lahiir"
                     android:textColor="#1C3879" />
 
@@ -267,9 +267,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
-            android:fontFamily="@font/SpringtimeRomance"
-            android:text="Edit Data"
             android:backgroundTint="@color/black"
+            android:fontFamily="@font/springtimeromance"
+            android:text="Edit Data"
 
             android:textColor="#EAE3D2" />
     </LinearLayout>
