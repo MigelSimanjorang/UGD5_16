@@ -5,129 +5,113 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
-import android.widget.Button
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.toko.databinding.ActivityMainBinding
+import com.example.toko.room.SepatuDB
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var inputUsername: TextInputLayout
-    private lateinit var inputPassword: TextInputLayout
-    private lateinit var mainLayout: ConstraintLayout
-
+    val db by lazy { SepatuDB(this) }
+    private lateinit var binding: ActivityMainBinding
     lateinit var  mBundle: Bundle
-    lateinit var newUsername: String
-    lateinit var newPassword: String
-    lateinit var newEmail: String
-    lateinit var newTanggalLahir: String
-    lateinit var newNoTelepon: String
+
     private val CHANNEL_ID_LOGIN = "channel_notification_02"
     private val notificationId2 = 102
+    private val myPreference = "login"
+    private val key = "nameKey"
+    private val id = "idKey"
+    var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
-
-        // Menyembunyikan Action Bar
         getSupportActionBar()?.hide()
+        sharedPreferences = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
 
-        // Hubungkan variabel dengan view di layoutnya
-        inputUsername = findViewById(R.id.inputLayoutUsername)
-        inputPassword = findViewById(R.id.inputLayoutPassword)
-        mainLayout = findViewById(R.id.mainLayout)
+        val viewBinding = binding.root
+        val moveHome = Intent(this@MainActivity, HomeActivity::class.java)
 
-        val btnRegister: Button = findViewById(R.id.btnRegister)
-        val btnLogin: Button = findViewById(R.id.btnLogin)
-        var intent : Intent = intent
+        if(!sharedPreferences!!.contains(key)){
+            val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
+            editor.putString(key, "terisi")
+            editor.apply()
+            setContentView(R.layout.activity_splash)
 
-        // Mengambil data register ketika sudah register
-        if (intent.hasExtra("register")) {
-            getBundle()
-            setText()
+            Handler(Looper.getMainLooper()).postDelayed({
+                setContentView(viewBinding)
+            }, 3000)
+        }else{
+            setContentView(viewBinding)
         }
 
-        // Aksi pada btnLogin
+        if (intent.hasExtra("register")) {
+            mBundle = intent.getBundleExtra("register")!!
+            inputUsername.setText(mBundle.getString("username"))
+            inputPassword.setText(mBundle.getString("password"))
+        }
+
         btnLogin.setOnClickListener(View.OnClickListener {
             var checkLogin = false
-            val username: String = inputUsername.getEditText()?.getText().toString()
-            val password: String = inputPassword.getEditText()?.getText().toString()
 
-            // EROR HANDLING
-            if (intent.hasExtra("register")) {
-                if (username.isEmpty()) {
-                    inputUsername.setError("Username must be filled with Text")
-                    checkLogin = false
-                }
-                if (password.isEmpty()) {
-                    inputPassword.setError("Password must ben filled with text")
-                    checkLogin = false
-                }
+            CoroutineScope(Dispatchers.IO).launch {
+                val users = db.userDao().getUser()
+                Log.d("MainActivity ","dbResponse: $users")
 
-                if (username == "admin" && password == "admin") {
-                    checkLogin = true
-                }
-                if (username == newUsername && password == newPassword) {
-                    checkLogin = true
+                for(i in users){
+                    if(inputUsername.text.toString() == i.username && inputPassword.text.toString() == i.password){
+                        val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
+                        editor.putString(id, i.id.toString())
+                        editor.apply()
+                        checkLogin=true
+                        break
+                    }
                 }
 
-            }else {
-                if (username.isEmpty()) {
-                    inputUsername.setError("Username must be filled with Text")
-                    checkLogin = false
-                }else if (username != "admin") {
-                    inputUsername.setError("Username false")
-                    checkLogin = false
-                }
+                withContext(Dispatchers.Main){
+                    if((inputUsername.text.toString() == "admin" && inputPassword.text.toString() == "admin") || (checkLogin)){
+                        checkLogin = false
+                        startActivity(moveHome)
+                        finish()
+                    }else {
+                        if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
+                            inputLayoutUsername.setError("Username must be filled with Text")
+                        }else if (inputLayoutUsername.getEditText()?.getText().toString() != "admin") {
+                            inputLayoutUsername.setError("Username false")
+                        }
 
-                if (password.isEmpty()) {
-                    inputPassword.setError("Password must ben filled with text")
-                    checkLogin = false
-                }else if (password != "admin") {
-                    inputPassword.setError("Password false")
-                    checkLogin = false
-                }
-
-                if (username == "admin" && password == "admin") {
-                    checkLogin = true
+                        if (inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
+                            inputLayoutPassword.setError("Password must ben filled with text")
+                        }else if (inputLayoutPassword.getEditText()?.getText().toString() != "admin") {
+                            inputLayoutPassword.setError("Password false")
+                        }
+                    }
                 }
             }
 
-
-            if (!checkLogin) return@OnClickListener
             createNotificationChannel()
-            sendNotification1(username)
-            val moveHome = Intent(this@MainActivity, HomeActivity::class.java)
-            moveHome.putExtra("User", mBundle)
-            startActivity(moveHome)
+            sendNotification1(binding.inputLayoutUsername.getEditText()?.getText().toString())
         })
 
-        // Move ke Activity Register
         btnRegister.setOnClickListener {
             val moveHome = Intent(this@MainActivity, RegisterActivity::class.java)
             startActivity(moveHome)
         }
-    }
-
-    fun getBundle() {
-        mBundle = intent.getBundleExtra("register")!!
-        newUsername = mBundle.getString("username")!!
-        newPassword = mBundle.getString("password")!!
-        newEmail = mBundle.getString("email")!!
-        newTanggalLahir = mBundle.getString("tanggalLahir")!!
-        newNoTelepon = mBundle.getString("noTelepon")!!
-    }
-
-
-    fun setText() {
-        inputUsername = findViewById(R.id.inputLayoutUsername)
-        inputUsername.getEditText()?.setText(newUsername)
     }
 
     private fun createNotificationChannel(){
@@ -171,7 +155,6 @@ class MainActivity : AppCompatActivity() {
             .addAction(R.mipmap.ic_launcher, "Toast", actionIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setStyle(NotificationCompat.BigTextStyle().bigText("Login anda telah berhasil! Harap jaga keamanan akun anda. Hati-hati terhadap segala bentuk penipuan karena kami tidak bertanggung jawab atas keamanan akun anda sendiri! Salam sehat dan selamat berbelanja :). Salam hangat dari kami."))
-
 
 
         with(NotificationManagerCompat.from(this)) {
