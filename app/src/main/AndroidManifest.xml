@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Toko"
         tools:targetApi="31">
         <activity
-            android:name=".EditSepatu"
+            android:name=".EditSepatuActivity"
             android:exported="false" />
         <activity
-            android:name=".ShowSepatu"
+            android:name=".ShowSepatuActivity"
             android:exported="false" />
         <activity
             android:name=".ListSepatuAdapter"

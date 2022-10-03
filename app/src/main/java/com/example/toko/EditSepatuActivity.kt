@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class EditSepatu : AppCompatActivity() {
+class EditSepatuActivity : AppCompatActivity() {
     val db by lazy { UserDB(this) }
     private var noteId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {

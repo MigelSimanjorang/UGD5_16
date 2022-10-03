@@ -14,7 +14,7 @@ class profileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         ListSepatu = findViewById(R.id.ListSepatu)
         ListSepatu.setOnClickListener{
-            val move = Intent(this, ShowSepatu::class.java)
+            val move = Intent(this, ShowSepatuActivity::class.java)
             startActivity(move)
         }
         mBundle = intent.getBundleExtra("User")!!

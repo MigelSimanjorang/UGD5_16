@@ -11,14 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.toko.room.Constant
 import com.example.toko.room.User
 import com.example.toko.room.UserDB
-import kotlinx.android.synthetic.main.activity_list_sepatu_adapter .*
 import kotlinx.android.synthetic.main.activity_show_sepatu.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ShowSepatu : AppCompatActivity() {
+class ShowSepatuActivity : AppCompatActivity() {
     val db by lazy { UserDB(this) }
     lateinit var noteAdapter: ListSepatuAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +91,7 @@ class ShowSepatu : AppCompatActivity() {
     //pick data dari Id yang sebagai primary key
     fun intentEdit(noteId : Int, intentType: Int){
         startActivity(
-            Intent(applicationContext, EditSepatu::class.java)
+            Intent(applicationContext, EditSepatuActivity::class.java)
                 .putExtra("intent_id", noteId)
                 .putExtra("intent_type", intentType)
         )
