@@ -4,65 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentProfile"
     android:layout_gravity="center"
-    android:orientation="vertical">
-
-
+    android:background="#28C5C5C5"
+    android:orientation="vertical"
+    tools:context=".FragmentProfile">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="335dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:background="@drawable/background2"
             android:orientation="vertical"
-            android:paddingTop="25dp"
+            android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
-            <ImageView
-                android:id="@+id/gambarProfil"
-                android:layout_width="309dp"
-                android:layout_height="201dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/profile"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/linearLayout"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                <ImageView
+                    android:id="@+id/gambarProfil"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/profile" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="38dp"
-                android:layout_gravity="center"
-                android:fontFamily="sans-serif"
-                android:text="Profile"
-                android:textColor="#1C3879"
-                android:textSize="25sp" />
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Sherllyna Permatasari"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-
-
-
-
-
+            </LinearLayout>
         </LinearLayout>
 
     </FrameLayout>
@@ -70,72 +56,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp">
-
-
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_baseline_person_24"
-                android:layout_gravity="center_vertical"/>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="Nama"
-                    android:textColor="#1C3879" />
-
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Migel Simanjorang"
-                    android:textColor="#656565"/>
-
-
-
-            </LinearLayout>
-
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp">
-
-
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_email_24"
-                android:layout_gravity="center_vertical"/>
-
-
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_email_24" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,74 +95,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="migelMnzo33@gmail.com"
-                    android:textColor="#656565"/>
-
-
+                    android:textColor="#656565" />
 
             </LinearLayout>
-
-
-
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_baseline_phone_android_24"
-                android:layout_gravity="center_vertical"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="No Telepon"
-                    android:textColor="#1C3879" />
-
-                <TextView
-                    android:id="@+id/noTelepon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="082221878123"
-                    android:textColor="#656565"
-                    />
-
-
-
-            </LinearLayout>
-
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_baseline_date_range_24"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_baseline_date_range_24" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -242,36 +132,79 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="20/9/2022"
-                    android:textColor="#656565"/>
-
-
+                    android:textColor="#656565" />
 
             </LinearLayout>
-
-
-
-
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_baseline_phone_android_24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="No Telepon"
+                    android:textColor="#1C3879" />
+
+                <TextView
+                    android:id="@+id/noTelepon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="082221878123"
+                    android:textColor="#656565" />
+
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp">
 
         <Button
             android:id="@+id/btnPesanan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:backgroundTint="@color/black"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="@color/white"
+            android:text="Pesanan Saya"
+            android:textColor="@color/black"
             android:fontFamily="sans-serif"
-            android:text="PESANAN SAYA"
+            android:drawableLeft="@drawable/ic_baseline_add_shopping_cart_24" />
 
-            android:textColor="#EAE3D2" />
+        <Button
+            android:id="@+id/btnEditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:backgroundTint="@color/white"
+            android:text="Edit Profil"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif"
+            android:drawableLeft="@drawable/ic_edit" />
     </LinearLayout>
 
 </LinearLayout>
