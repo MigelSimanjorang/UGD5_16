@@ -87,6 +87,8 @@ class MainActivity : AppCompatActivity() {
                     if((inputUsername.text.toString() == "admin" && inputPassword.text.toString() == "admin") || (checkLogin)){
                         checkLogin = false
                         startActivity(moveHome)
+                        createNotificationChannel()
+                        sendNotification1(binding.inputLayoutUsername.getEditText()?.getText().toString())
                         finish()
                     }else {
                         if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
@@ -103,9 +105,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            createNotificationChannel()
-            sendNotification1(binding.inputLayoutUsername.getEditText()?.getText().toString())
         })
 
         btnRegister.setOnClickListener {
