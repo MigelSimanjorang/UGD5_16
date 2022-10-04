@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.example.toko.room.Buy
 import com.example.toko.room.Constant
 import com.example.toko.room.SepatuDB
-import kotlinx.android.synthetic.main.activity_edit_sepatu.*
+import kotlinx.android.synthetic.main.activity_tambah_pesanan.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class TambahPesananActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getSupportActionBar()?.hide()
-        setContentView(R.layout.activity_edit_sepatu)
+        setContentView(R.layout.activity_tambah_pesanan)
         setupView()
         setupListener()
 

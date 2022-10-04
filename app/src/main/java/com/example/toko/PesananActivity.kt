@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.toko.room.Buy
 import com.example.toko.room.Constant
 import com.example.toko.room.SepatuDB
-import kotlinx.android.synthetic.main.activity_show_sepatu.*
+import kotlinx.android.synthetic.main.activity_pesanan.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class PesananActivity : AppCompatActivity() {
     lateinit var noteAdapter: ListSepatuAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_show_sepatu)
+        setContentView(R.layout.activity_pesanan)
         setupListener()
         setupRecyclerView()
     }
