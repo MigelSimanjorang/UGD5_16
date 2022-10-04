@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".EditSepatuActivity">
+    tools:context=".TambahPesananActivity">
     <EditText
         android:id="@+id/edit_title"
         android:layout_width="0dp"

@@ -263,13 +263,13 @@
         android:layout_gravity="center">
 
         <Button
-            android:id="@+id/btnEditData"
+            android:id="@+id/btnPesanan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:backgroundTint="@color/black"
             android:fontFamily="sans-serif"
-            android:text="Edit Data"
+            android:text="PESANAN SAYA"
 
             android:textColor="#EAE3D2" />
     </LinearLayout>

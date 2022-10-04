@@ -8,12 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import com.example.toko.databinding.FragmentProfileBinding
 import com.example.toko.room.SepatuDB
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +22,6 @@ class FragmentProfile: Fragment() {
     private val myPreference = "login"
     private val id = "idKey"
     var sharedPreferences: SharedPreferences? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +47,8 @@ class FragmentProfile: Fragment() {
             showNomorHP.setText(user?.noTelepon)
         }
 
-        btnEditData.setOnClickListener() {
-            val intent = Intent(context, EditSepatuActivity::class.java)
+        btnPesanan.setOnClickListener() {
+            val intent = Intent(context, PesananActivity::class.java)
             startActivity(intent)
         }
     }

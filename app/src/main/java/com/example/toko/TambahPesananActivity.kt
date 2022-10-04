@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class EditSepatuActivity : AppCompatActivity() {
+class TambahPesananActivity : AppCompatActivity() {
     val db by lazy { SepatuDB(this) }
 
     private val id = "idKey"

@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ShowSepatuActivity : AppCompatActivity() {
+class PesananActivity : AppCompatActivity() {
     val db by lazy { SepatuDB(this) }
     lateinit var noteAdapter: ListSepatuAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,10 +26,7 @@ class ShowSepatuActivity : AppCompatActivity() {
         setupListener()
         setupRecyclerView()
     }
-    //berfungsi untuk membuat sebuah note status pada button yang ditekan untuk CRUD yang dilaksanakan
-    //ini berhubungan dengan Constant status pada room
-    //cara panggil id dengan memanggil fungsi intetnEdit.
-    //jika pada fungsi interface adapterListener berubah, maka object akan memerah error karena penambahan fungsi.
+
     private fun setupRecyclerView() {
         noteAdapter = ListSepatuAdapter(arrayListOf(), object : ListSepatuAdapter.OnAdapterListener{
             override fun onClick(note: Buy) {
@@ -90,7 +87,7 @@ class ShowSepatuActivity : AppCompatActivity() {
     //pick data dari Id yang sebagai primary key
     fun intentEdit(noteId : Int, intentType: Int){
         startActivity(
-            Intent(applicationContext, EditSepatuActivity::class.java)
+            Intent(applicationContext, TambahPesananActivity::class.java)
                 .putExtra("intent_id", noteId)
                 .putExtra("intent_type", intentType)
         )
