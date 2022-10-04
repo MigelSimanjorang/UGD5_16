@@ -58,7 +58,7 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             var checkRegis = false
             val moveHome = Intent(this, HomeActivity::class.java)
 
@@ -80,6 +80,7 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             } else {
                 checkRegis = true
+                setupListener()
             }
 
             if (!checkRegis) return@setOnClickListener

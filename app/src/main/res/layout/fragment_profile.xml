@@ -215,7 +215,7 @@
         <ImageView
             android:layout_width="170dp"
             android:layout_height="180dp"
-            android:src="@drawable/sepatu" />
+            android:src="@drawable/kushoes" />
     </LinearLayout>
 
     <LinearLayout
