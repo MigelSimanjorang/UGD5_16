@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Toko"
         tools:targetApi="31">
         <activity
-            android:name=".editProfileActivity"
+            android:name=".EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".editProfileActivity"
             android:exported="false" />
         <activity
             android:name=".TambahPesananActivity"
