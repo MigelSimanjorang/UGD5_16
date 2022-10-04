@@ -51,5 +51,10 @@ class FragmentProfile: Fragment() {
             val intent = Intent(context, PesananActivity::class.java)
             startActivity(intent)
         }
+
+        btnEditProfile.setOnClickListener() {
+            val intent = Intent(context, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
