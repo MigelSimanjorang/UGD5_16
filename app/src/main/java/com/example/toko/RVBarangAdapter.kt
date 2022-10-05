@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toko.entity.Barang
-import com.example.toko.entity.Pegawai
 
 class RVBarangAdapter(private val data: Array<Barang>) : RecyclerView.Adapter<RVBarangAdapter.viewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {

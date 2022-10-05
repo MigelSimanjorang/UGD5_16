@@ -17,7 +17,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:background="@drawable/background2"
+            android:background="@drawable/gray_wallpaper"
             android:orientation="vertical"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
@@ -42,11 +42,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="50dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Sherllyna Permatasari"
+                    android:layout_marginTop="55dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:text="Username"
                     android:textColor="@color/white"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -94,7 +94,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="migelMnzo33@gmail.com"
+                    android:text="xxx@gmail.com"
                     android:textColor="#656565" />
 
             </LinearLayout>
@@ -124,14 +124,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="Tanggal Lahiir"
+                    android:text="Tanggal Lahir"
                     android:textColor="#1C3879" />
 
                 <TextView
                     android:id="@+id/tanggalLahir"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="20/9/2022"
+                    android:text="dd/MM/yyyy"
                     android:textColor="#656565" />
 
             </LinearLayout>
@@ -169,7 +169,7 @@
                     android:id="@+id/noTelepon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="082221878123"
+                    android:text="xxxxxxxxxxxx"
                     android:textColor="#656565" />
 
             </LinearLayout>

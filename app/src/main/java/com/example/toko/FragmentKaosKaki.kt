@@ -7,22 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.toko.entity.Pegawai
+import com.example.toko.entity.KaosKaki
 
-class FragmentPegawai : Fragment() {
+class FragmentKaosKaki : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        // Proses menghubungkan layout fragment_pegawai.xml dengan fragment ini
-        return inflater.inflate(R.layout.fragment_pegawai, container, false)
+        return inflater.inflate(R.layout.fragment_kaos_kaki, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(context)
-        val adapter : RVPegawaiAdapter = RVPegawaiAdapter(Pegawai.listOfPegawai)
+        val adapter : RVKaosKakiAdapter = RVKaosKakiAdapter(KaosKaki.listOfKaosKaki)
 
         // Menghubungkan rvPegawai dengan recycler view yang ada pada layout
         val rvPegawai : RecyclerView = view.findViewById(R.id.rv_pegawai)

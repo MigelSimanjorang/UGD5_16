@@ -7,21 +7,22 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/tv_nama_pegawai"
+        android:id="@+id/tv_nama_kaos_kaki"
         style="@style/TextAppearance.MaterialComponents.Headline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
-        android:text="Nama Pegawai"
+        android:background="#F0E1FF"
+        android:text="Nama Kaos Kaki"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tv_details_pegawai"
+        android:id="@+id/tv_details_kaos_kaki"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Role - Umur"
-        app:layout_constraintBottom_toTopOf="@+id/tv_nama_pegawai"
+        android:text="Warna"
+        app:layout_constraintBottom_toTopOf="@+id/tv_nama_kaos_kaki"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"

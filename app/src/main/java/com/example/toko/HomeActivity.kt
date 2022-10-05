@@ -1,13 +1,7 @@
 package com.example.toko
 
-import android.content.DialogInterface
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -28,8 +22,8 @@ class HomeActivity : AppCompatActivity() {
                     changeFragment(FragmentHome())
                     true
                 }
-                R.id.menu_pegawai -> {
-                    changeFragment(FragmentPegawai())
+                R.id.menu_kaos_kaki -> {
+                    changeFragment(FragmentKaosKaki())
                     true
                 }
                 R.id.menu_barang -> {

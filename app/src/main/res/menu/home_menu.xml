@@ -7,9 +7,9 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/menu_pegawai"
-        android:icon="@drawable/ic_person_add_24"
-        android:title="Pegawai"/>
+        android:id="@+id/menu_kaos_kaki"
+        android:icon="@drawable/ic_baseline_do_not_step_24"
+        android:title="Kaos Kaki"/>
 
     <item
         android:id="@+id/menu_barang"

@@ -49,7 +49,7 @@ class PesananActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.apply {
             setTitle("Confirmation")
-            setMessage("Are You Sure to delete this data From ${note.title}?")
+            setMessage("Apakah yakin ingin menghapus pesanan?")
             setNegativeButton("Cancel", DialogInterface.OnClickListener
             { dialogInterface, i ->
                 dialogInterface.dismiss()

@@ -11,7 +11,7 @@
         android:id="@+id/edit_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Merk Sepatu"
+        android:hint="Nama Pesanan"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +20,8 @@
         android:id="@+id/edit_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Jumlah Sepatu"
-        android:minLines="3"
+        android:hint="Jumlah Pesanan"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_title"
@@ -30,22 +30,25 @@
         />
     <Button
         android:id="@+id/button_save"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="SAVE"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_note"
         android:layout_marginTop="20dp"
-        />
+        android:backgroundTint="@color/black"/>
+
     <Button
         android:id="@+id/button_update"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="UPDATE"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_save"
-        android:layout_marginTop="20dp"
-        />
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/black"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
