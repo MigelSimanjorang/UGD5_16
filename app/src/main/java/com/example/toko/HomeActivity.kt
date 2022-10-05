@@ -22,24 +22,26 @@ class HomeActivity : AppCompatActivity() {
 
         changeFragment(FragmentHome())
         navigation = findViewById(R.id.navigation) as BottomNavigationView
-        navigation.setOnNavigationItemReselectedListener {
+        navigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
                     changeFragment(FragmentHome())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
                 R.id.menu_pegawai -> {
                     changeFragment(FragmentPegawai())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
                 R.id.menu_barang -> {
                     changeFragment(FragmentBarang())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
                 R.id.menu_profile -> {
                     changeFragment(FragmentProfile())
-                    return@setOnNavigationItemReselectedListener
+                    true
                 }
+
+                else -> false
             }
         }
     }

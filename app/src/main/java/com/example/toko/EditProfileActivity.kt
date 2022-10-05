@@ -23,7 +23,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditProfileBinding
     private val id = "idKey"
-    private val myPreference = "myPref"
+    private val myPreference = "login"
     var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

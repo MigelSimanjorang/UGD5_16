@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FragmentProfile: Fragment() {
 
@@ -39,12 +40,15 @@ class FragmentProfile: Fragment() {
         val showTanggal: TextView = view.findViewById(R.id.tanggalLahir)
         val showNomorHP: TextView = view.findViewById(R.id.noTelepon)
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch{
             val user = db?.userDao()?.getUser(sharedPreferences!!.getString(id,"")!!.toInt())?.get(0)
-            showUsername.setText(user?.username)
-            showEmail.setText(user?.email)
-            showTanggal.setText(user?.tanggalLahir)
-            showNomorHP.setText(user?.noTelepon)
+            withContext(Dispatchers.Main) {
+                showUsername.setText(user?.username)
+                showEmail.setText(user?.email)
+                showTanggal.setText(user?.tanggalLahir)
+                showNomorHP.setText(user?.noTelepon)
+            }
+
         }
 
         btnPesanan.setOnClickListener() {
