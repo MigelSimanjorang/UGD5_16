@@ -60,7 +60,6 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             var checkRegis = false
-            val moveHome = Intent(this, HomeActivity::class.java)
 
             if (binding.inputUsername.text.toString().isEmpty() && binding.inputPassword.text.toString().isEmpty() && binding.inputEmail.text.toString().isEmpty() && binding.inputTanggalLahir.text.toString().isEmpty() && binding.inputNoTelepon.text.toString().isEmpty()) {
                 if (binding.inputUsername.text.toString().isEmpty()) {
@@ -84,7 +83,8 @@ class EditProfileActivity : AppCompatActivity() {
             }
 
             if (!checkRegis) return@setOnClickListener
-            startActivity(moveHome)
+            finish()
+//            (activity as HomeActivity).changeFragment(FragmentProfile())
         }
     }
 
