@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             inputPassword.setText(mBundle.getString("password"))
         }
 
-        btnLogin.setOnClickListener(View.OnClickListener {
+        binding.btnLogin.setOnClickListener(View.OnClickListener {
             var checkLogin = false
 
             CoroutineScope(Dispatchers.IO).launch {
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        btnRegister.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             val moveHome = Intent(this@MainActivity, RegisterActivity::class.java)
             startActivity(moveHome)
         }

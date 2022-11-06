@@ -67,7 +67,11 @@ class FragmentProfile: Fragment() {
         btnEditProfile.setOnClickListener() {
             val intent = Intent(context, EditProfileActivity::class.java)
             startActivity(intent)
+        }
 
+        btnCamera.setOnClickListener() {
+            val intent = Intent(context, CameraActivity::class.java)
+            startActivity(intent)
         }
     }
 }
