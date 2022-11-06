@@ -48,16 +48,6 @@
                     android:textColor="@color/white"
                     android:textSize="25dp" />
 
-                <Button
-                    android:id="@+id/btnCamera"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:fontFamily="sans-serif"
-                    android:drawableLeft="@drawable/ic_baseline_camera_24" />
-
             </LinearLayout>
         </LinearLayout>
 
@@ -215,6 +205,7 @@
             android:textColor="@color/black"
             android:fontFamily="sans-serif"
             android:drawableLeft="@drawable/ic_edit" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -226,6 +217,15 @@
             android:layout_width="170dp"
             android:layout_height="180dp"
             android:src="@drawable/kushoes" />
+
+        <Button
+            android:id="@+id/btnCamera"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/ic_baseline_camera_24"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
