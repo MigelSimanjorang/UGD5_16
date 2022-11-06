@@ -17,6 +17,11 @@
         android:title="Barang"/>
 
     <item
+        android:id="@+id/menu_lokasi"
+        android:icon="@drawable/ic_baseline_location_on_24"
+        android:title="Lokasi"/>
+
+    <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_user_24"
         android:title="Profile" />

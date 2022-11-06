@@ -30,6 +30,10 @@ class HomeActivity : AppCompatActivity() {
                     changeFragment(FragmentBarang())
                     true
                 }
+                R.id.menu_lokasi -> {
+                    changeFragment(FragmentLokasi())
+                    true
+                }
                 R.id.menu_profile -> {
                     changeFragment(FragmentProfile())
                     true

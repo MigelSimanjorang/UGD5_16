@@ -1,0 +1,35 @@
+{
+  "results": [
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.779433,
+          "lng": 110.415782
+        }
+      },
+      "name": "Kampus 3 Universitas Atma Jaya Yogyakarta",
+      "vicinity": "Jl.Babarsari no. 43, Janti, Caturtunggal, kec. Depok, Kabupaten Sleman, Daerah Istimewah Yogyakarta 558281"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.773575391753387,
+          "lng": 110.41449320728084
+        }
+      },
+      "name": "Metro Kampus Barbarsari",
+      "vicinity": "Jl. Babarsari No.5, Tambak Bayan, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.781890232370349,
+          "lng": 110.4146271482743
+        }
+      },
+      "name": "Universitas Pembangunan Nasional \"Veteran\" Yogyakarta - Kampus 2 Babarsari",
+      "vicinity": "Jl. Babarsari Jl. Tambak Bayan No.2, Janti, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    }
+  ],
+  "status": "OK"
+}
