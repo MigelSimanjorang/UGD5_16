@@ -83,8 +83,8 @@ class TambahPesananActivity : AppCompatActivity() {
         noteId = intent.getIntExtra("intent_id", 0)
         CoroutineScope(Dispatchers.IO).launch {
             val notes = db.buyDao().getBuy(noteId)[0]
-            edit_title.setText(notes.title)
-            edit_note.setText(notes.note)
+            nama_pesanan.setText(notes.title)
+            jumlah_pesanan.setText(notes.note)
         }
     }
     override fun onSupportNavigateUp(): Boolean {
@@ -93,8 +93,8 @@ class TambahPesananActivity : AppCompatActivity() {
     }
 
     private fun tambahPesanan() {
-        val pesananText: EditText = findViewById(R.id.edit_title)
-        val jumlahPesananText: EditText = findViewById(R.id.edit_note)
+        val pesananText: EditText = findViewById(R.id.nama_pesanan)
+        val jumlahPesananText: EditText = findViewById(R.id.jumlah_pesanan)
 
         val pesanan = Pesanan(
             pesananText.text.toString(),
