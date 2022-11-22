@@ -36,32 +36,28 @@ class FragmentProfile: Fragment() {
     var sharedPreferences: SharedPreferences? = null
     private var queue: RequestQueue? = null
 
-    private lateinit var showUsername: TextView
-    private lateinit var showEmail: TextView
-    private lateinit var showTanggal: TextView
-    private lateinit var showNomorHP: TextView
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater,container, false)
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onStart() {
+        super.onStart()
         sharedPreferences = activity?.getSharedPreferences(myPreference, Context.MODE_PRIVATE)
         queue = Volley.newRequestQueue(requireActivity())
         val id = sharedPreferences!!.getInt("id", -1)
         showProfile(id)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         btnPesanan.setOnClickListener() {
             val intent = Intent(context, PesananActivity::class.java)
@@ -88,10 +84,10 @@ class FragmentProfile: Fragment() {
                 var user = gson.fromJson(jsonObject.getJSONObject("data").toString(), User::class.java)
                 println(user.username)
 
-                showUsername.setText(user.username)
-                showEmail.setText(user.email)
-                showTanggal.setText(user.tglLahir)
-                showNomorHP.setText(user.noTelepon)
+                binding.username.setText(user.username)
+                binding.email.setText(user.email)
+                binding.tanggalLahir.setText(user.tglLahir)
+                binding.noTelepon.setText(user.noTelepon)
 
             },Response.ErrorListener { error ->
                 try {

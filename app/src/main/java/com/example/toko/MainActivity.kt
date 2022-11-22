@@ -157,14 +157,18 @@ class MainActivity : AppCompatActivity() {
             binding.inputLayoutUsername.getEditText()?.getText().toString(),
             binding.inputLayoutPassword.getEditText()?.getText().toString(),
         )
-
         val stringRequest: StringRequest =
             object: StringRequest(Method.POST, SepatuApi.login, Response.Listener { response ->
                 val gson = Gson()
                 var login = gson.fromJson(response, User::class.java)
 
+                val jsonObject = JSONObject(response)
                 if(login != null)
                     Toast.makeText(this@MainActivity, "Login Success", Toast.LENGTH_SHORT).show()
+
+                val prefEdit : SharedPreferences.Editor = sharedPreferences!!.edit()
+                prefEdit.putInt("id", jsonObject.getJSONObject("user").getInt("id"))
+                prefEdit.apply()
 
                 val moveHome = Intent(this@MainActivity, HomeActivity::class.java)
 

@@ -7,24 +7,36 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.toko.api.SepatuApi
 import com.example.toko.databinding.ActivityEditProfileBinding
 import com.example.toko.databinding.ActivityRegisterBinding
-import com.example.toko.room.SepatuDB
-import com.example.toko.room.User
+import com.example.toko.databinding.FragmentProfileBinding
+import com.example.toko.models.User
+//import com.example.toko.room.SepatuDB
+//import com.example.toko.room.User
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
 import java.util.*
 
 class EditProfileActivity : AppCompatActivity() {
-    val db by lazy { SepatuDB(this) }
 
     private lateinit var binding: ActivityEditProfileBinding
     private val id = "idKey"
     private val myPreference = "login"
     var sharedPreferences: SharedPreferences? = null
+    private var queue: RequestQueue? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +48,10 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(viewBinding)
 
         sharedPreferences = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
-        val id = sharedPreferences!!.getString(id,"")!!.toInt()
-        boostData(id)
+        queue = Volley.newRequestQueue(this@EditProfileActivity)
+
+        val id = sharedPreferences!!.getInt("id", -1)
+        getUserById(id)
 
         val calendar = Calendar.getInstance()
         val tahun = calendar.get(Calendar.YEAR)
@@ -79,40 +93,95 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             } else {
                 checkRegis = true
-                setupListener()
             }
 
             if (!checkRegis) return@setOnClickListener
+            updateUser(id)
             finish()
 //            (activity as HomeActivity).changeFragment(FragmentProfile())
         }
     }
 
-    private fun setupListener(){
-        sharedPreferences = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
-        val id = sharedPreferences?.getString(id, "")
-        CoroutineScope(Dispatchers.IO).launch {
-            db.userDao().updateUser(User(id!!.toInt(),
-                binding.inputUsername.text.toString(),
-                binding.inputPassword.text.toString(),
-                binding.inputEmail.text.toString(),
-                binding.inputTanggalLahir.text.toString(),
-                binding.inputNoTelepon.text.toString()))
+    private fun getUserById(id: Int) {
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.GET, SepatuApi.getUserById + id, Response.Listener { response ->
+                val gson = Gson()
+                val jsonObject = JSONObject(response)
+                var user = gson.fromJson(jsonObject.getJSONObject("data").toString(), User::class.java)
+                println(user.username)
+
+                binding.inputUsername.setText(user.username)
+                binding.inputPassword.setText(user.password)
+                binding.inputEmail.setText(user.email)
+                binding.inputTanggalLahir.setText(user.tglLahir)
+                binding.inputNoTelepon.setText(user.noTelepon)
+
+            }, Response.ErrorListener { error ->
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(this, errors.getString("message"), Toast.LENGTH_SHORT).show()
+                } catch (e: Exception){
+                    Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                return headers
+            }
+
         }
-        finish()
+        queue!!.add(stringRequest)
     }
 
-    fun boostData(id: Int){
-        CoroutineScope(Dispatchers.IO).launch {
-            val user = db?.userDao()?.getUser(id)?.get(0)
+    private fun updateUser(id: Int) {
+        val update = User(
+            binding.inputUsername.text.toString(),
+            binding.inputPassword.text.toString(),
+            binding.inputEmail.text.toString(),
+            binding.inputTanggalLahir.text.toString(),
+            binding.inputNoTelepon.text.toString(),
+        )
 
-            withContext(Dispatchers.Main){
-                binding.layoutUsername.editText?.setText(user?.username)
-                binding.layoutPassword.editText?.setText(user?.password)
-                binding.layoutEmail.editText?.setText(user?.email)
-                binding.layoutTanggalLahir.editText?.setText(user?.tanggalLahir)
-                binding.layoutNoTelepon.editText?.setText(user?.noTelepon)
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.PUT, SepatuApi.updateUser + id, Response.Listener { response ->
+                val gson = Gson()
+                var update = gson.fromJson(response, User::class.java)
+
+                if(update != null)
+                    Toast.makeText(this@EditProfileActivity, "Data Berhasil Update", Toast.LENGTH_SHORT).show()
+
+            }, Response.ErrorListener { error ->
+                try {
+                    Toast.makeText(
+                        this@EditProfileActivity,
+                        error.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this@EditProfileActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                return headers
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getBody(): ByteArray {
+                val gson = Gson()
+                val requestBody = gson.toJson(update)
+                return requestBody.toByteArray(StandardCharsets.UTF_8)
+            }
+
+            override fun getBodyContentType(): String {
+                return "application/json"
             }
         }
+        queue!!.add(stringRequest)
     }
 }
