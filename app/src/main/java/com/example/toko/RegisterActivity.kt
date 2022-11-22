@@ -12,23 +12,35 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.toko.api.SepatuApi
 import com.example.toko.databinding.ActivityRegisterBinding
 import com.example.toko.room.SepatuDB
-import com.example.toko.room.User
+//import com.example.toko.room.User
+import com.example.toko.models.User
+import com.example.toko.room.Buy
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_tambah_pesanan.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
-    val db by lazy { SepatuDB(this) }
-    private var userId: Int = 0
     private lateinit var binding: ActivityRegisterBinding
     private val CHANNEL_ID_REGISTER = "channel_notification_01"
     private val notificationId1 = 101
+    private var queue: RequestQueue? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +55,7 @@ class RegisterActivity : AppCompatActivity() {
         val tahun = calendar.get(Calendar.YEAR)
         val bulan = calendar.get(Calendar.MONTH)
         val hari = calendar.get(Calendar.DAY_OF_MONTH)
+        queue = Volley.newRequestQueue(this)
 
         binding.btnClear.setOnClickListener {
             binding.inputRegisterUsername.setText("")
@@ -70,7 +83,6 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.btnRegister.setOnClickListener {
             var checkRegis = false
-            val moveHome = Intent(this, MainActivity::class.java)
 
             if (binding.inputRegisterUsername.text.toString().isEmpty() && binding.inputRegisterPassword.text.toString().isEmpty() && binding.inputRegisterEmail.text.toString().isEmpty() && binding.inputRegisterTanggalLahir.text.toString().isEmpty() && binding.inputRegisterNoTelepon.text.toString().isEmpty()) {
                 if (binding.inputRegisterUsername.text.toString().isEmpty()) {
@@ -93,28 +105,8 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             if (!checkRegis) return@setOnClickListener
-            val mBundle = Bundle()
-
-            mBundle.putString("username",binding.inputRegisterUsername.text.toString())
-            mBundle.putString("password",binding.inputRegisterPassword.text.toString())
-            mBundle.putString("email",binding.inputRegisterEmail.text.toString())
-            mBundle.putString("tanggalLahir",binding.inputRegisterTanggalLahir.text.toString())
-            mBundle.putString("noTelepon",binding.inputRegisterNoTelepon.text.toString())
-            moveHome.putExtra("register",mBundle)
-
-            CoroutineScope(Dispatchers.IO).launch {
-                db.userDao().addUser(
-                    User(0, binding.inputRegisterUsername.text.toString(), binding.inputRegisterPassword.text.toString(), binding.inputRegisterEmail.text.toString(),binding.inputRegisterTanggalLahir.text.toString(),binding.inputRegisterNoTelepon.text.toString())
-                )
-                finish()
-            }
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
-            createNotificationChannel()
-            sendNotification1(binding.inputRegisterUsername.text.toString(),Bitmap.createScaledBitmap(bitmap,300,100,false))
-
-            startActivity(moveHome)
+            registerUser()
         }
-
     }
 
     private fun createNotificationChannel(){
@@ -161,5 +153,76 @@ class RegisterActivity : AppCompatActivity() {
         with(NotificationManagerCompat.from(this)){
             notify(notificationId1, builder.build())
         }
+    }
+
+    private fun registerUser() {
+        val register = User(
+            binding.inputRegisterUsername.text.toString(),
+            binding.inputRegisterPassword.text.toString(),
+            binding.inputRegisterEmail.text.toString(),
+            binding.inputRegisterTanggalLahir.text.toString(),
+            binding.inputRegisterNoTelepon.text.toString(),
+        )
+
+        val stringRequest: StringRequest =
+            object: StringRequest(Method.POST, SepatuApi.register, Response.Listener { response ->
+                val gson = Gson()
+                var register = gson.fromJson(response, User::class.java)
+
+                if(register != null)
+                    Toast.makeText(this@RegisterActivity, "Register Success", Toast.LENGTH_SHORT).show()
+
+                val mBundle = Bundle()
+                val moveMain = Intent(this, MainActivity::class.java)
+
+                mBundle.putString("username",binding.inputRegisterUsername.text.toString())
+                mBundle.putString("password",binding.inputRegisterPassword.text.toString())
+                mBundle.putString("email",binding.inputRegisterEmail.text.toString())
+                mBundle.putString("tanggalLahir",binding.inputRegisterTanggalLahir.text.toString())
+                mBundle.putString("noTelepon",binding.inputRegisterNoTelepon.text.toString())
+                moveMain.putExtra("register",mBundle)
+
+                val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
+                createNotificationChannel()
+                sendNotification1(binding.inputRegisterUsername.text.toString(),Bitmap.createScaledBitmap(bitmap,300,100,false))
+
+                startActivity(moveMain)
+                finish()
+
+//                setLoading(false)
+            }, Response.ErrorListener { error ->
+//                setLoading(false)
+                try{
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } catch (e: Exception){
+                    Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(register)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+
+        queue!!.add(stringRequest)
     }
 }

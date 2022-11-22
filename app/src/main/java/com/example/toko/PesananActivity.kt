@@ -20,6 +20,7 @@ import kotlinx.coroutines.withContext
 class PesananActivity : AppCompatActivity() {
     val db by lazy { SepatuDB(this) }
     lateinit var noteAdapter: ListSepatuAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pesanan)

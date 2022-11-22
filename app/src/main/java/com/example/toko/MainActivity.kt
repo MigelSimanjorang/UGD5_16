@@ -6,6 +6,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -14,21 +16,33 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.toko.api.SepatuApi
 import com.example.toko.databinding.ActivityMainBinding
-import com.example.toko.room.SepatuDB
+import com.example.toko.models.Login
+import com.example.toko.models.User
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
+import java.util.HashMap
 
 class MainActivity : AppCompatActivity() {
-    val db by lazy { SepatuDB(this) }
     private lateinit var binding: ActivityMainBinding
     lateinit var  mBundle: Bundle
+    private var queue: RequestQueue? = null
 
     private val CHANNEL_ID_LOGIN = "channel_notification_02"
     private val notificationId2 = 102
@@ -45,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
 
         val viewBinding = binding.root
-        val moveHome = Intent(this@MainActivity, HomeActivity::class.java)
+        queue = Volley.newRequestQueue(this)
 
         if(!sharedPreferences!!.contains(key)){
             val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
@@ -66,46 +80,24 @@ class MainActivity : AppCompatActivity() {
             inputPassword.setText(mBundle.getString("password"))
         }
 
-        binding.btnLogin.setOnClickListener(View.OnClickListener {
+        binding.btnLogin.setOnClickListener {
             var checkLogin = false
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val users = db.userDao().getUser()
-                Log.d("MainActivity ","dbResponse: $users")
-
-                for(i in users){
-                    if(inputUsername.text.toString() == i.username && inputPassword.text.toString() == i.password){
-                        val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
-                        editor.putString(id, i.id.toString())
-                        editor.apply()
-                        checkLogin=true
-                        break
-                    }
+            if (binding.inputLayoutUsername.getEditText()?.getText().toString().isEmpty() && binding.inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
+                if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
+                    inputLayoutUsername.setError("Username must be filled with Text")
                 }
 
-                withContext(Dispatchers.Main){
-                    if((inputUsername.text.toString() == "admin" && inputPassword.text.toString() == "admin") || (checkLogin)){
-                        checkLogin = false
-                        startActivity(moveHome)
-                        createNotificationChannel()
-                        sendNotification1(binding.inputLayoutUsername.getEditText()?.getText().toString())
-                        finish()
-                    }else {
-                        if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
-                            inputLayoutUsername.setError("Username must be filled with Text")
-                        }else if (inputLayoutUsername.getEditText()?.getText().toString() != "admin") {
-                            inputLayoutUsername.setError("Username false")
-                        }
-
-                        if (inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
-                            inputLayoutPassword.setError("Password must ben filled with text")
-                        }else if (inputLayoutPassword.getEditText()?.getText().toString() != "admin") {
-                            inputLayoutPassword.setError("Password false")
-                        }
-                    }
+                if (inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
+                    inputLayoutPassword.setError("Password must ben filled with text")
                 }
+            }else {
+                checkLogin = true
             }
-        })
+
+            if (!checkLogin) return@setOnClickListener
+            loginUser()
+        }
 
         binding.btnRegister.setOnClickListener {
             val moveHome = Intent(this@MainActivity, RegisterActivity::class.java)
@@ -123,8 +115,7 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel1)
         }
     }
@@ -159,5 +150,64 @@ class MainActivity : AppCompatActivity() {
         with(NotificationManagerCompat.from(this)) {
             notify(notificationId2, builder.build())
         }
+    }
+
+    private fun loginUser() {
+        val login = Login(
+            binding.inputLayoutUsername.getEditText()?.getText().toString(),
+            binding.inputLayoutPassword.getEditText()?.getText().toString(),
+        )
+
+        val stringRequest: StringRequest =
+            object: StringRequest(Method.POST, SepatuApi.login, Response.Listener { response ->
+                val gson = Gson()
+                var login = gson.fromJson(response, User::class.java)
+
+                if(login != null)
+                    Toast.makeText(this@MainActivity, "Login Success", Toast.LENGTH_SHORT).show()
+
+                val moveHome = Intent(this@MainActivity, HomeActivity::class.java)
+
+                val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
+                createNotificationChannel()
+//                sendNotification1(binding.inputRegisterUsername.text.toString(),
+                startActivity(moveHome)
+                finish()
+
+//                setLoading(false)
+            }, Response.ErrorListener { error ->
+//                setLoading(false)
+                try{
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } catch (e: Exception){
+                    Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(login)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+
+        queue!!.add(stringRequest)
     }
 }
