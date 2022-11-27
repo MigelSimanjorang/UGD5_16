@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             var checkLogin = false
 
-            if (binding.inputLayoutUsername.getEditText()?.getText().toString().isEmpty() && binding.inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
+            if (binding.inputLayoutUsername.getEditText()?.getText().toString().isEmpty() || binding.inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
                 if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
                     inputLayoutUsername.setError("Username must be filled with Text")
                     Timber.tag("Username").d("Username must be filled with Text")
@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
 
                 val jsonObject = JSONObject(response)
                 if(login != null)
-                    Toast.makeText(this@MainActivity, "Login Success", Toast.LENGTH_SHORT).show()
+                    FancyToast.makeText(this,"Login Success !",FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show()
 
                 val prefEdit : SharedPreferences.Editor = sharedPreferences!!.edit()
                 prefEdit.putInt("id", jsonObject.getJSONObject("user").getInt("id"))
@@ -181,7 +181,6 @@ class MainActivity : AppCompatActivity() {
 
                 val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
                 createNotificationChannel()
-                FancyToast.makeText(this,"Login Success !",FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show()
                 startActivity(moveHome)
                 finish()
 
