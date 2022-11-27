@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.AuthFailureError
@@ -16,10 +17,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
 import com.example.toko.api.SepatuApi
 import com.example.toko.databinding.FragmentProfileBinding
 import com.example.toko.models.User
 import com.google.gson.Gson
+import kotlinx.android.synthetic.*
 //import com.example.toko.room.SepatuDB
 
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -69,11 +72,22 @@ class FragmentProfile: Fragment() {
             startActivity(intent)
         }
 
+        btnImgLoad.setOnClickListener() {
+            val url = "https://p4.wallpaperbetter.com/wallpaper/916/475/663/sword-art-online-asuna-yuuki-kazuto-kirigaya-kirito-sword-art-online-wallpaper-preview.jpg"
+            val imagePath = binding.gambarProfil
+
+            Glide
+                .with(this)
+                .load(url)
+                .into(imagePath)
+        }
+
         val camera: Button = view.findViewById(R.id.btnCamera)
         camera.setOnClickListener() {
             val intent = Intent(context, CameraActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     private fun showProfile(id: Int) {

@@ -89,13 +89,13 @@ class MainActivity : AppCompatActivity() {
             if (binding.inputLayoutUsername.getEditText()?.getText().toString().isEmpty() || binding.inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
                 if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
                     inputLayoutUsername.setError("Username must be filled with Text")
-                    Timber.tag("Username").d("Username must be filled with Text")
+                    Timber.tag("Username").d("Username Kosong")
                     FancyToast.makeText(this,"Username is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
                 }
 
                 if (inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
                     inputLayoutPassword.setError("Password must ben filled with text")
-                    Timber.tag("Password").d("Password must be filled with Text")
+                    Timber.tag("Password").d("Password Kosong")
                     FancyToast.makeText(this,"Password is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
                 }
             }else {
