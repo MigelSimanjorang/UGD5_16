@@ -1,5 +1,6 @@
 package com.example.toko
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,10 +10,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.android.volley.AuthFailureError
@@ -28,13 +32,37 @@ import com.example.toko.models.User
 import com.example.toko.room.Buy
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.android.synthetic.main.activity_tambah_pesanan.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+
+import android.view.View
+
+//import com.itextpdf.barcodes.BarcodeQRCode
+//import com.itextpdf.io.image.ImageDataFactory
+//import com.itextpdf.io.source.ByteArrayOutputStream
+//import com.itextpdf.kernel.colors.ColorConstants
+//import com.itextpdf.kernel.geom.PageSize
+//import com.itextpdf.kernel.pdf.PdfDocument
+//import com.itextpdf.kernel.pdf.PdfWriter
+//import com.itextpdf.layout.Document
+//import com.itextpdf.layout.element.Cell
+//import com.itextpdf.layout.element.Image
+//import com.itextpdf.layout.element.Paragraph
+//import com.itextpdf.layout.element.Table
+//import com.itextpdf.layout.property.HorizontalAlignment
+//import com.itextpdf.layout.property.TextAlignment
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -107,6 +135,26 @@ class RegisterActivity : AppCompatActivity() {
             if (!checkRegis) return@setOnClickListener
             registerUser()
         }
+    }
+
+    private fun pdf() {
+//        val username = binding!!.inputRegisterUsername.text.toString()
+//        val email = binding!!.inputRegisterEmail.text.toString()
+//        val tanggalLahir = binding!!.inputRegisterTanggalLahir.text.toString()
+//        val noTelepon = binding!!.inputRegisterNoTelepon.text.toString()
+//
+//        try {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                if (username.isEmpty() && email.isEmpty() && tanggalLahir.isEmpty() && noTelepon.isEmpty()) {
+//                    FancyToast.makeText(this,"Login Success !",
+//                        FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+//                }else {
+//                    createPdf(username, email, tanggalLahir, noTelepon)
+//                }
+//            }
+//        } catch (e: FileNotFoundException) {
+//            e.printStackTrace()
+//        }
     }
 
     private fun createNotificationChannel(){
@@ -185,7 +233,7 @@ class RegisterActivity : AppCompatActivity() {
                 val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
                 createNotificationChannel()
                 sendNotification1(binding.inputRegisterUsername.text.toString(),Bitmap.createScaledBitmap(bitmap,300,100,false))
-
+                pdf()
                 startActivity(moveMain)
                 finish()
 
@@ -225,4 +273,81 @@ class RegisterActivity : AppCompatActivity() {
 
         queue!!.add(stringRequest)
     }
+
+//    @SuppressLint("ObsoleteSdkInt")
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    @Throws(
+//        FileNotFoundException::class
+//    )
+//    private fun createPdf(username: String, email: String, tanggalLahir: String, noTelepon: String) {
+//        //ini berguna untuk akses Writing ke Storage HP dalam mode Download.
+//        val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+//        val file = File(pdfPath, "pdf_register_kushoes.pdf")
+//        FileOutputStream(file)
+//
+//        //inisaliasi pembuatan PDF
+//        val writer = PdfWriter(file)
+//        val pdfDocument = PdfDocument(writer)
+//        val document = Document(pdfDocument)
+//        pdfDocument.defaultPageSize = PageSize.A4
+//        document.setMargins(5f, 5f, 5f, 5f)
+//        @SuppressLint("UseCompatLoadingForDrawables") val d = getDrawable(R.drawable.pdf_background)
+//
+//        //penambahan gambar pada Gambar atas
+//        val bitmap = (d as BitmapDrawable?)!!.bitmap
+//        val stream = ByteArrayOutputStream()
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+//        val bitmapData = stream.toByteArray()
+//        val imageData = ImageDataFactory.create(bitmapData)
+//        val image = Image(imageData)
+//        val namapengguna = Paragraph("Selamat Datang di Aplikasi KuShoes").setBold().setFontSize(24f)
+//            .setTextAlignment(TextAlignment.CENTER)
+//        val group = Paragraph(
+//                        """
+//                        Berikut adalah
+//                        Data Registrasi Anda
+//                        """.trimIndent()).setTextAlignment(TextAlignment.CENTER).setFontSize(12f)
+//
+//        //proses pembuatan table
+//        val width = floatArrayOf(100f, 100f)
+//        val table = Table(width)
+//        //pengisian table dengan data-data
+//        table.setHorizontalAlignment(HorizontalAlignment.CENTER)
+//        table.addCell(Cell().add(Paragraph("Username")))
+//        table.addCell(Cell().add(Paragraph(username)))
+//        table.addCell(Cell().add(Paragraph("Email")))
+//        table.addCell(Cell().add(Paragraph(email)))
+//        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+//        table.addCell(Cell().add(Paragraph("Tanggal Lahir")))
+//        table.addCell(Cell().add(Paragraph(LocalDate.now().format(dateTimeFormatter))))
+//        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss a")
+//        table.addCell(Cell().add(Paragraph(email)))
+//        table.addCell(Cell().add(Paragraph("Nomor Telepon")))
+//        table.addCell(Cell().add(Paragraph(noTelepon)))
+//        table.addCell(Cell().add(Paragraph("Pukul Pembuatan")))
+//        table.addCell(Cell().add(Paragraph(LocalTime.now().format(timeFormatter))))
+//
+//        //pembuatan QR CODE secara generate dengan bantuan IText7
+//        val barcodeQRCode = BarcodeQRCode(
+//                                        """
+//                                        $username
+//                                        $email
+//                                        $tanggalLahir
+//                                        $noTelepon
+//                                        ${LocalDate.now().format(dateTimeFormatter)}
+//                                        ${LocalTime.now().format(timeFormatter)}
+//                                        """.trimIndent())
+//
+//        val qrCodeObject = barcodeQRCode.createFormXObject(ColorConstants.BLACK, pdfDocument)
+//        val qrCodeImage = Image(qrCodeObject).setWidth(80f).setHorizontalAlignment(HorizontalAlignment.CENTER)
+//
+//        document.add(image)
+//        document.add(namapengguna)
+//        document.add(group)
+//        document.add(table)
+//        document.add(qrCodeImage)
+//
+//        document.close()
+//        Toast.makeText(this, "Pdf Created", Toast.LENGTH_LONG).show()
+//    }
 }

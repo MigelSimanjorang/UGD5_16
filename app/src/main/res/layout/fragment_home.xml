@@ -47,12 +47,14 @@
                 android:textSize="40sp"
                 android:textStyle="bold" />
 
-            <ImageView
+            <Button
+                android:id="@+id/qrCode"
+                android:text="adsasd"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/diskon"
-                android:layout_gravity="center"/>
+                />
 
             <TextView
                 android:layout_width="match_parent"

@@ -30,12 +30,14 @@ import com.example.toko.models.Login
 import com.example.toko.models.User
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
+import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import timber.log.Timber
 import java.nio.charset.StandardCharsets
 import java.util.HashMap
 
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         getSupportActionBar()?.hide()
         sharedPreferences = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
+        Timber.plant(Timber.DebugTree())
 
         val viewBinding = binding.root
         queue = Volley.newRequestQueue(this)
@@ -86,10 +89,14 @@ class MainActivity : AppCompatActivity() {
             if (binding.inputLayoutUsername.getEditText()?.getText().toString().isEmpty() && binding.inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
                 if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
                     inputLayoutUsername.setError("Username must be filled with Text")
+                    Timber.tag("Username").d("Username must be filled with Text")
+                    FancyToast.makeText(this,"Username is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
                 }
 
                 if (inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
                     inputLayoutPassword.setError("Password must ben filled with text")
+                    Timber.tag("Password").d("Password must be filled with Text")
+                    FancyToast.makeText(this,"Password is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
                 }
             }else {
                 checkLogin = true
@@ -174,13 +181,11 @@ class MainActivity : AppCompatActivity() {
 
                 val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
                 createNotificationChannel()
-//                sendNotification1(binding.inputRegisterUsername.text.toString(),
+                FancyToast.makeText(this,"Login Success !",FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show()
                 startActivity(moveHome)
                 finish()
 
-//                setLoading(false)
             }, Response.ErrorListener { error ->
-//                setLoading(false)
                 try{
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)

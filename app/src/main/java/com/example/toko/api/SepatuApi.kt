@@ -2,7 +2,7 @@ package com.example.toko.api
 
 class SepatuApi {
     companion object {
-        val BASE_URL = "http://192.168.12.252/ProjectApiVolley/project_api_volley/public/api/"
+        val BASE_URL = "http://192.168.1.4/ProjectApiVolley/project_api_volley/public/api/"
 
         val register = BASE_URL + "register"
         val login = BASE_URL + "login"
