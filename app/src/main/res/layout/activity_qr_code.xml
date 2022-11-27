@@ -31,6 +31,9 @@
                 android:id="@+id/backBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif"
                 android:text="Back"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"/>
@@ -40,6 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Kamera"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"/>
 
@@ -48,6 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Gallery"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif"
                 android:layout_weight="1"
                 android:layout_marginEnd="5dp"/>
 
@@ -56,14 +65,17 @@
         <ImageView
             android:id="@+id/imageTv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_qr_code_scanner_24"
-            android:adjustViewBounds="true"/>
+            android:layout_height="323dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_baseline_qr_code_scanner_24" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/scanBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif"
             android:text="Scan Result"/>
 
         <TextView
