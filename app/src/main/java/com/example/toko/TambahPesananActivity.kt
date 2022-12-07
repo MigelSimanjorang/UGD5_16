@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Toast
 import com.android.volley.AuthFailureError
@@ -38,6 +40,7 @@ class TambahPesananActivity : AppCompatActivity() {
     private val myPreference = "myPref"
     var sharedPreferences: SharedPreferences? = null
     private lateinit var binding: ActivityTambahPesananBinding
+
     private var noteId: Int = 0
     private var queue: RequestQueue? = null
 
@@ -46,50 +49,62 @@ class TambahPesananActivity : AppCompatActivity() {
         getSupportActionBar()?.hide()
 
         binding = ActivityTambahPesananBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_tambah_pesanan)
-        queue = Volley.newRequestQueue(this)
-        setupView()
-        setupListener()
+        val view = binding.root
+        setContentView(view)
 
-        Toast.makeText(this, noteId.toString(),Toast.LENGTH_SHORT).show()
-    }
-    fun setupView(){
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        val intentType = intent.getIntExtra("intent_type", 0)
-        when (intentType){
-            Constant.TYPE_CREATE -> {
-                button_update.visibility = View.GONE
+        queue = Volley.newRequestQueue(this)
+        val id = intent.getLongExtra("id", -1)
+
+        if(id == -1L){
+            binding.tvTitle.setText("Tambah Pesanan")
+            binding.btnSave.setOnClickListener {
+                tambahPesanan()
             }
-            Constant.TYPE_READ -> {
-                button_save.visibility = View.GONE
-                button_update.visibility = View.GONE
-                getNote()
-            }
-            Constant.TYPE_UPDATE -> {
-                button_save.visibility = View.GONE
-                getNote()
+        }else{
+            binding.tvTitle.setText("Edit Pesanan")
+            getPesananById(id)
+
+            binding.btnSave.setOnClickListener {
+                updatePesanan(id)
             }
         }
-    }
-    private fun setupListener() {
-        button_save.setOnClickListener {
-            tambahPesanan()
-        }
-        button_update.setOnClickListener {
-//            tambahPesanan()
+        btn_cancel.setOnClickListener {
+            finish()
         }
     }
-    fun getNote() {
-        noteId = intent.getIntExtra("intent_id", 0)
-        CoroutineScope(Dispatchers.IO).launch {
-            val notes = db.buyDao().getBuy(noteId)[0]
-            nama_pesanan.setText(notes.title)
-            jumlah_pesanan.setText(notes.note)
+
+    private fun getPesananById(id: Long){
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.GET, SepatuApi.GET_BY_ID_PESANAN + id,
+                { response ->
+                    val pesanan = Gson().fromJson(response, Pesanan::class.java)
+
+                    binding!!.namaPesanan.setText(pesanan.namaPesanan)
+                    binding!!.jumlahPesanan.setText(pesanan.jumlahPesanan)
+                    Toast.makeText(this@TambahPesananActivity,"Pesanan berhasil diambil", Toast.LENGTH_SHORT).show()
+                },
+                Response.ErrorListener{ error ->
+                    try{
+                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                        val errors = JSONObject(responseBody)
+                        Toast.makeText(
+                            this,
+                            errors.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: Exception){
+                        Toast.makeText(this@TambahPesananActivity, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                return headers
+            }
         }
-    }
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
+        queue!!.add(stringRequest)
+
     }
 
     private fun tambahPesanan() {
@@ -146,6 +161,60 @@ class TambahPesananActivity : AppCompatActivity() {
                 }
             }
 
+        queue!!.add(stringRequest)
+    }
+
+    private fun updatePesanan(id: Long){
+        val pesananText: EditText = findViewById(R.id.nama_pesanan)
+        val jumlahPesananText: EditText = findViewById(R.id.jumlah_pesanan)
+
+        val pesanan = Pesanan(
+            pesananText.text.toString(),
+            jumlahPesananText.text.toString()
+        )
+
+        val stringRequest: StringRequest =
+            object: StringRequest(Method.PUT, SepatuApi.UPDATE_PESANAN + id, Response.Listener { response ->
+                val gson = Gson()
+                var pesanan = gson.fromJson(response, Pesanan::class.java)
+
+                if(pesanan != null)
+                    Toast.makeText(this@TambahPesananActivity, "Data berhasil diubah", Toast.LENGTH_SHORT).show()
+
+                val returnIntent = Intent()
+                setResult(RESULT_OK, returnIntent)
+                finish()
+            }, Response.ErrorListener { error ->
+                try{
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } catch (e: Exception){
+                    Toast.makeText(this@TambahPesananActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(pesanan)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
         queue!!.add(stringRequest)
     }
 }

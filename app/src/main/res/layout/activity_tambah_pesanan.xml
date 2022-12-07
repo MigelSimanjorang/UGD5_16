@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Tambah Pesanan" />
+                android:text="... Pesanan" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_namaPesanan"
@@ -63,10 +63,6 @@
                     android:inputType="none"/>
 
             </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
         </LinearLayout>
 
     </ScrollView>
@@ -90,20 +86,11 @@
             android:text="Batal"/>
 
         <Button
-            android:id="@+id/button_save"
+            android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Simpan"/>
-
-        <Button
-            android:id="@+id/button_update"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Update"/>
-
-
 
     </LinearLayout>
 
