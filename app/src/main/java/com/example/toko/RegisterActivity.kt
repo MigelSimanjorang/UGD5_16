@@ -112,15 +112,15 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             var checkRegis = false
 
-            if (binding.inputRegisterUsername.text.toString().isEmpty() && binding.inputRegisterPassword.text.toString().isEmpty() && binding.inputRegisterEmail.text.toString().isEmpty() && binding.inputRegisterTanggalLahir.text.toString().isEmpty() && binding.inputRegisterNoTelepon.text.toString().isEmpty()) {
+            if ((binding.inputRegisterUsername.text.toString().isEmpty() && binding.inputRegisterPassword.text.toString().isEmpty() && binding.inputRegisterEmail.text.toString().isEmpty() && binding.inputRegisterTanggalLahir.text.toString().isEmpty() && binding.inputRegisterNoTelepon.text.toString().isEmpty()) || !(android.util.Patterns.EMAIL_ADDRESS.matcher(binding.inputRegisterEmail.text.toString()).matches())) {
                 if (binding.inputRegisterUsername.text.toString().isEmpty()) {
                     binding.inputRegisterUsername.setError("Username must be filled with Text")
                 }
                 if (binding.inputRegisterPassword.text.toString().isEmpty()) {
                     binding.inputRegisterPassword.setError("Password must be filled with Text")
                 }
-                if (binding.inputRegisterEmail.text.toString().isEmpty()) {
-                    binding.inputRegisterEmail.setError("Email must be filled with Text")
+                if (!(android.util.Patterns.EMAIL_ADDRESS.matcher(binding.inputRegisterEmail.text.toString()).matches())) {
+                    binding.inputRegisterEmail.setError("The email is not in the correct format")
                 }
                 if (binding.inputRegisterTanggalLahir.text.toString().isEmpty()) {
                     binding.inputRegisterTanggalLahir.setError("Tanggal Lahir must be filled with Text")

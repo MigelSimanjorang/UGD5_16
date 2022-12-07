@@ -75,15 +75,15 @@ class EditProfileActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             var checkRegis = false
 
-            if (binding.inputUsername.text.toString().isEmpty() && binding.inputPassword.text.toString().isEmpty() && binding.inputEmail.text.toString().isEmpty() && binding.inputTanggalLahir.text.toString().isEmpty() && binding.inputNoTelepon.text.toString().isEmpty()) {
+            if ((binding.inputUsername.text.toString().isEmpty() && binding.inputPassword.text.toString().isEmpty() && binding.inputEmail.text.toString().isEmpty() && binding.inputTanggalLahir.text.toString().isEmpty() && binding.inputNoTelepon.text.toString().isEmpty()) || !(android.util.Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.text.toString()).matches())) {
                 if (binding.inputUsername.text.toString().isEmpty()) {
                     binding.inputUsername.setError("Username must be filled with Text")
                 }
                 if (binding.inputPassword.text.toString().isEmpty()) {
                     binding.inputPassword.setError("Password must be filled with Text")
                 }
-                if (binding.inputEmail.text.toString().isEmpty()) {
-                    binding.inputEmail.setError("Email must be filled with Text")
+                if (!(android.util.Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.text.toString()).matches())) {
+                    binding.inputEmail.setError("The email is not in the correct format")
                 }
                 if (binding.inputTanggalLahir.text.toString().isEmpty()) {
                     binding.inputTanggalLahir.setError("Tanggal Lahir must be filled with Text")
