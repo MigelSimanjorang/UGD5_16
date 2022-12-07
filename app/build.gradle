@@ -96,4 +96,14 @@ dependencies {
     implementation 'com.itextpdf:itext7-core:7.1.13'
     // implementasi PDF Library OpenPDF
     implementation 'com.github.librepdf:openpdf:1.3.29'
+
+    // Unit Testing
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    // Optional -- Hamcrest library
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+    // Optional -- UI testing with Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // Optional -- UI testing with Automator
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 }
