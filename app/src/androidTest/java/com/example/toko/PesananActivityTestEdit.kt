@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
@@ -65,6 +67,7 @@ class PesananActivityTestEdit {
             )
         )
         textInputEditText.perform(scrollTo(), replaceText("Sepatu Hitam"), closeSoftKeyboard())
+        onView(isRoot()).perform(waitFor(3000))
 
         val textInputEditText2 = onView(
             allOf(
@@ -79,6 +82,7 @@ class PesananActivityTestEdit {
             )
         )
         textInputEditText2.perform(scrollTo(), replaceText("7"), closeSoftKeyboard())
+        onView(isRoot()).perform(waitFor(3000))
 
         val materialButton = onView(
             allOf(
@@ -97,6 +101,7 @@ class PesananActivityTestEdit {
             )
         )
         materialButton.perform(click())
+        onView(isRoot()).perform(waitFor(3000))
     }
 
     private fun childAtPosition(
@@ -113,6 +118,22 @@ class PesananActivityTestEdit {
                 val parent = view.parent
                 return parent is ViewGroup && parentMatcher.matches(parent)
                         && view == parent.getChildAt(position)
+            }
+        }
+    }
+
+    fun waitFor(delay: Long): ViewAction? {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return isRoot()
+            }
+
+            override fun getDescription(): String {
+                return "Wait for $delay milliseconds."
+            }
+
+            override fun perform(uiController: UiController, view: View) {
+                uiController.loopMainThreadForAtLeast(delay)
             }
         }
     }
