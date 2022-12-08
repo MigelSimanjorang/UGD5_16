@@ -77,11 +77,11 @@ class MainActivity : AppCompatActivity() {
             setContentView(viewBinding)
         }
 
-        if (intent.hasExtra("register")) {
-            mBundle = intent.getBundleExtra("register")!!
-            inputUsername.setText(mBundle.getString("username"))
-            inputPassword.setText(mBundle.getString("password"))
-        }
+//        if (intent.hasExtra("register")) {
+//            mBundle = intent.getBundleExtra("register")!!
+//            inputUsername.setText(mBundle.getString("username"))
+//            inputPassword.setText(mBundle.getString("password"))
+//        }
 
         binding.btnLogin.setOnClickListener {
             var checkLogin = false
@@ -90,13 +90,11 @@ class MainActivity : AppCompatActivity() {
                 if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
                     inputLayoutUsername.setError("Username must be filled with Text")
                     Timber.tag("Username").d("Username Kosong")
-                    FancyToast.makeText(this,"Username is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
                 }
 
                 if (inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
                     inputLayoutPassword.setError("Password must ben filled with text")
                     Timber.tag("Password").d("Password Kosong")
-                    FancyToast.makeText(this,"Password is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
                 }
             }else {
                 checkLogin = true
@@ -160,62 +158,70 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loginUser() {
-        val login = Login(
-            binding.inputLayoutUsername.getEditText()?.getText().toString(),
-            binding.inputLayoutPassword.getEditText()?.getText().toString(),
-        )
-        val stringRequest: StringRequest =
-            object: StringRequest(Method.POST, SepatuApi.login, Response.Listener { response ->
-                val gson = Gson()
-                var login = gson.fromJson(response, User::class.java)
-
-                val jsonObject = JSONObject(response)
-                if(login != null)
-                    FancyToast.makeText(this,"Login Success !",FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show()
-
-                val prefEdit : SharedPreferences.Editor = sharedPreferences!!.edit()
-                prefEdit.putInt("id", jsonObject.getJSONObject("user").getInt("id"))
-                prefEdit.apply()
-
-                val moveHome = Intent(this@MainActivity, HomeActivity::class.java)
-
-                val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
-                createNotificationChannel()
-                startActivity(moveHome)
-                finish()
-
-            }, Response.ErrorListener { error ->
-                try{
-                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
-                    val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this,
-                        errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } catch (e: Exception){
-                    Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_SHORT).show()
-                }
-            }){
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Accept"] = "application/json"
-                    return headers
-                }
-
-                @Throws(AuthFailureError::class)
-                override fun getBody(): ByteArray {
+        if (inputLayoutUsername.getEditText()?.getText().toString().isEmpty()) {
+            FancyToast.makeText(this,"Username is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else if (inputLayoutPassword.getEditText()?.getText().toString().isEmpty()) {
+            FancyToast.makeText(this,"Password is Empty !",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else {
+            val login = Login(
+                binding.inputLayoutUsername.getEditText()?.getText().toString(),
+                binding.inputLayoutPassword.getEditText()?.getText().toString(),
+            )
+            val stringRequest: StringRequest =
+                object: StringRequest(Method.POST, SepatuApi.login, Response.Listener { response ->
                     val gson = Gson()
-                    val requestBody = gson.toJson(login)
-                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                    var login = gson.fromJson(response, User::class.java)
+
+                    val jsonObject = JSONObject(response)
+                    if(login != null)
+                        FancyToast.makeText(this,"Login Success !",FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show()
+
+                    val prefEdit : SharedPreferences.Editor = sharedPreferences!!.edit()
+                    prefEdit.putInt("id", jsonObject.getJSONObject("user").getInt("id"))
+                    prefEdit.apply()
+
+                    val moveHome = Intent(this@MainActivity, HomeActivity::class.java)
+
+                    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ez)
+                    createNotificationChannel()
+                    startActivity(moveHome)
+                    finish()
+
+                }, Response.ErrorListener { error ->
+                    try{
+                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                        val errors = JSONObject(responseBody)
+                        Toast.makeText(
+                            this,
+                            errors.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: Exception){
+                        Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }){
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Accept"] = "application/json"
+                        return headers
+                    }
+
+                    @Throws(AuthFailureError::class)
+                    override fun getBody(): ByteArray {
+                        val gson = Gson()
+                        val requestBody = gson.toJson(login)
+                        return requestBody.toByteArray(StandardCharsets.UTF_8)
+                    }
+
+                    override fun getBodyContentType(): String {
+                        return "application/json"
+                    }
                 }
 
-                override fun getBodyContentType(): String {
-                    return "application/json"
-                }
-            }
-
-        queue!!.add(stringRequest)
+            queue!!.add(stringRequest)
+        }
     }
 }

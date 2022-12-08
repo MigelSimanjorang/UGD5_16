@@ -151,35 +151,6 @@ class PesananActivity : AppCompatActivity() {
         }
         queue!!.add(stringRequest)
     }
-//    override fun onStart() {
-//        super.onStart()
-//        loadData()
-//    }
-
-//    //untuk load data yang tersimpan pada database yang sudah create data
-//    fun loadData() {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val notes = db.buyDao().getBuy()
-//            Log.d("ShowFamily","dbResponse: $notes")
-//            withContext(Dispatchers.Main){
-//                noteAdapter.setData(notes)
-//            }
-//        }
-//    }
-//    fun setupListener() {
-//        button_create.setOnClickListener{
-//            intentEdit(0, Constant.TYPE_CREATE)
-//        }
-//    }
-//
-//    //pick data dari Id yang sebagai primary key
-//    fun intentEdit(noteId : Int, intentType: Int){
-//        startActivity(
-//            Intent(applicationContext, TambahPesananActivity::class.java)
-//                .putExtra("intent_id", noteId)
-//                .putExtra("intent_type", intentType)
-//        )
-//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -25,6 +25,7 @@ import com.example.toko.room.Buy
 import com.example.toko.room.Constant
 import com.example.toko.room.SepatuDB
 import com.google.gson.Gson
+import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.android.synthetic.main.activity_tambah_pesanan.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -111,110 +112,126 @@ class TambahPesananActivity : AppCompatActivity() {
         val pesananText: EditText = findViewById(R.id.nama_pesanan)
         val jumlahPesananText: EditText = findViewById(R.id.jumlah_pesanan)
 
-        val pesanan = Pesanan(
-            pesananText.text.toString(),
-            jumlahPesananText.text.toString()
-        )
+        if (pesananText.text.toString().isEmpty()) {
+            FancyToast.makeText(this@TambahPesananActivity,"Pesanan is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else if (jumlahPesananText.text.toString().isEmpty()) {
+            FancyToast.makeText(this@TambahPesananActivity,"Jumlah pesanan is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else {
+            val pesanan = Pesanan(
+                pesananText.text.toString(),
+                jumlahPesananText.text.toString()
+            )
 
-        val stringRequest: StringRequest =
-            object: StringRequest(Method.POST, SepatuApi.ADD_PESANAN, Response.Listener { response ->
-                val movePesanan = Intent(this@TambahPesananActivity, PesananActivity::class.java)
-                val gson = Gson()
-                var pesanan = gson.fromJson(response, Pesanan::class.java)
-
-                if(pesanan != null)
-                    Toast.makeText(this@TambahPesananActivity, "Pesanan berhasil ditambahkan", Toast.LENGTH_SHORT).show()
-
-                startActivity(movePesanan)
-                finish()
-            }, Response.ErrorListener { error ->
-                try{
-                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
-                    val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this,
-                        errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } catch (e: Exception){
-                    Toast.makeText(this@TambahPesananActivity, e.message, Toast.LENGTH_SHORT).show()
-                }
-            }){
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Accept"] = "application/json"
-                    return headers
-                }
-
-                @Throws(AuthFailureError::class)
-                override fun getBody(): ByteArray {
+            val stringRequest: StringRequest =
+                object: StringRequest(Method.POST, SepatuApi.ADD_PESANAN, Response.Listener { response ->
+                    val movePesanan = Intent(this@TambahPesananActivity, PesananActivity::class.java)
                     val gson = Gson()
-                    val requestBody = gson.toJson(pesanan)
+                    var pesanan = gson.fromJson(response, Pesanan::class.java)
 
-                    println(requestBody)
-                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                    if(pesanan != null)
+                        Toast.makeText(this@TambahPesananActivity, "Pesanan berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+
+                    startActivity(movePesanan)
+                    finish()
+                }, Response.ErrorListener { error ->
+                    try{
+                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                        val errors = JSONObject(responseBody)
+                        Toast.makeText(
+                            this,
+                            errors.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: Exception){
+                        Toast.makeText(this@TambahPesananActivity, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }){
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Accept"] = "application/json"
+                        return headers
+                    }
+
+                    @Throws(AuthFailureError::class)
+                    override fun getBody(): ByteArray {
+                        val gson = Gson()
+                        val requestBody = gson.toJson(pesanan)
+
+                        println(requestBody)
+                        return requestBody.toByteArray(StandardCharsets.UTF_8)
+                    }
+
+                    override fun getBodyContentType(): String {
+                        return "application/json"
+                    }
                 }
 
-                override fun getBodyContentType(): String {
-                    return "application/json"
-                }
-            }
-
-        queue!!.add(stringRequest)
+            queue!!.add(stringRequest)
+        }
     }
 
     private fun updatePesanan(id: Long){
         val pesananText: EditText = findViewById(R.id.nama_pesanan)
         val jumlahPesananText: EditText = findViewById(R.id.jumlah_pesanan)
 
-        val pesanan = Pesanan(
-            pesananText.text.toString(),
-            jumlahPesananText.text.toString()
-        )
+        if (pesananText.text.toString().isEmpty()) {
+            FancyToast.makeText(this@TambahPesananActivity,"Pesanan is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else if (jumlahPesananText.text.toString().isEmpty()) {
+            FancyToast.makeText(this@TambahPesananActivity,"Jumlah pesanan is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else {
+            val pesanan = Pesanan(
+                pesananText.text.toString(),
+                jumlahPesananText.text.toString()
+            )
 
-        val stringRequest: StringRequest =
-            object: StringRequest(Method.PUT, SepatuApi.UPDATE_PESANAN + id, Response.Listener { response ->
-                val gson = Gson()
-                var pesanan = gson.fromJson(response, Pesanan::class.java)
-
-                if(pesanan != null)
-                    Toast.makeText(this@TambahPesananActivity, "Data berhasil diubah", Toast.LENGTH_SHORT).show()
-
-                val returnIntent = Intent()
-                setResult(RESULT_OK, returnIntent)
-                finish()
-            }, Response.ErrorListener { error ->
-                try{
-                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
-                    val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this,
-                        errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } catch (e: Exception){
-                    Toast.makeText(this@TambahPesananActivity, e.message, Toast.LENGTH_SHORT).show()
-                }
-            }){
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Accept"] = "application/json"
-                    return headers
-                }
-
-                @Throws(AuthFailureError::class)
-                override fun getBody(): ByteArray {
+            val stringRequest: StringRequest =
+                object: StringRequest(Method.PUT, SepatuApi.UPDATE_PESANAN + id, Response.Listener { response ->
                     val gson = Gson()
-                    val requestBody = gson.toJson(pesanan)
-                    return requestBody.toByteArray(StandardCharsets.UTF_8)
-                }
+                    var pesanan = gson.fromJson(response, Pesanan::class.java)
 
-                override fun getBodyContentType(): String {
-                    return "application/json"
+                    if(pesanan != null)
+                        Toast.makeText(this@TambahPesananActivity, "Data berhasil diubah", Toast.LENGTH_SHORT).show()
+
+                    val returnIntent = Intent()
+                    setResult(RESULT_OK, returnIntent)
+                    finish()
+                }, Response.ErrorListener { error ->
+                    try{
+                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                        val errors = JSONObject(responseBody)
+                        Toast.makeText(
+                            this,
+                            errors.getString("message"),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: Exception){
+                        Toast.makeText(this@TambahPesananActivity, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }){
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Accept"] = "application/json"
+                        return headers
+                    }
+
+                    @Throws(AuthFailureError::class)
+                    override fun getBody(): ByteArray {
+                        val gson = Gson()
+                        val requestBody = gson.toJson(pesanan)
+                        return requestBody.toByteArray(StandardCharsets.UTF_8)
+                    }
+
+                    override fun getBodyContentType(): String {
+                        return "application/json"
+                    }
                 }
-            }
-        queue!!.add(stringRequest)
+            queue!!.add(stringRequest)
+        }
     }
 }

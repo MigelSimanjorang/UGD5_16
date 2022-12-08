@@ -21,6 +21,7 @@ import com.example.toko.models.User
 //import com.example.toko.room.SepatuDB
 //import com.example.toko.room.User
 import com.google.gson.Gson
+import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,19 +59,19 @@ class EditProfileActivity : AppCompatActivity() {
         val bulan = calendar.get(Calendar.MONTH)
         val hari = calendar.get(Calendar.DAY_OF_MONTH)
 
-        binding.inputTanggalLahir.setOnFocusChangeListener { view, b ->
-            val datePicker =
-                this?.let { it1 ->
-                    DatePickerDialog(it1, DatePickerDialog.OnDateSetListener{ view, year, month, dayOfMonth ->
-                        binding.inputTanggalLahir.setText("${dayOfMonth}/${(month.toInt() + 1).toString()}/${year}")
-                    }, tahun, bulan, hari)
-                }
-            if(b){
-                datePicker?.show()
-            }else{
-                datePicker?.hide()
-            }
-        }
+//        binding.inputTanggalLahir.setOnFocusChangeListener { view, b ->
+//            val datePicker =
+//                this?.let { it1 ->
+//                    DatePickerDialog(it1, DatePickerDialog.OnDateSetListener{ view, year, month, dayOfMonth ->
+//                        binding.inputTanggalLahir.setText("${dayOfMonth}/${(month.toInt() + 1).toString()}/${year}")
+//                    }, tahun, bulan, hari)
+//                }
+//            if(b){
+//                datePicker?.show()
+//            }else{
+//                datePicker?.hide()
+//            }
+//        }
 
         binding.btnSave.setOnClickListener {
             var checkRegis = false
@@ -137,51 +138,68 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun updateUser(id: Int) {
-        val update = User(
-            binding.inputUsername.text.toString(),
-            binding.inputPassword.text.toString(),
-            binding.inputEmail.text.toString(),
-            binding.inputTanggalLahir.text.toString(),
-            binding.inputNoTelepon.text.toString(),
-        )
-
-        val stringRequest: StringRequest = object :
-            StringRequest(Method.PUT, SepatuApi.updateUser + id, Response.Listener { response ->
-                val gson = Gson()
-                var update = gson.fromJson(response, User::class.java)
-
-                if(update != null)
-                    Toast.makeText(this@EditProfileActivity, "Data Berhasil Update", Toast.LENGTH_SHORT).show()
-
-            }, Response.ErrorListener { error ->
-                try {
-                    Toast.makeText(
-                        this@EditProfileActivity,
-                        error.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } catch (e: Exception) {
-                    Toast.makeText(this@EditProfileActivity, e.message, Toast.LENGTH_SHORT).show()
-                }
-            }){
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val headers = HashMap<String, String>()
-                headers["Accept"] = "application/json"
-                return headers
-            }
-
-            @Throws(AuthFailureError::class)
-            override fun getBody(): ByteArray {
-                val gson = Gson()
-                val requestBody = gson.toJson(update)
-                return requestBody.toByteArray(StandardCharsets.UTF_8)
-            }
-
-            override fun getBodyContentType(): String {
-                return "application/json"
-            }
+        if (binding.inputUsername.text.toString().isEmpty()) {
+            FancyToast.makeText(this@EditProfileActivity,"Username is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
         }
-        queue!!.add(stringRequest)
+        else if (binding.inputPassword.text.toString().isEmpty()) {
+            FancyToast.makeText(this@EditProfileActivity,"Password is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else if (!(android.util.Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.text.toString()).matches())) {
+            FancyToast.makeText(this@EditProfileActivity,"Email is not formatted !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else if (binding.inputTanggalLahir.text.toString().isEmpty()) {
+            FancyToast.makeText(this@EditProfileActivity,"Tanggal lahir is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else if (binding.inputNoTelepon.text.toString().isEmpty()) {
+            FancyToast.makeText(this@EditProfileActivity,"No Telepon is Empty !", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show()
+        }
+        else {
+            val update = User(
+                binding.inputUsername.text.toString(),
+                binding.inputPassword.text.toString(),
+                binding.inputEmail.text.toString(),
+                binding.inputTanggalLahir.text.toString(),
+                binding.inputNoTelepon.text.toString(),
+            )
+
+            val stringRequest: StringRequest = object :
+                StringRequest(Method.PUT, SepatuApi.updateUser + id, Response.Listener { response ->
+                    val gson = Gson()
+                    var update = gson.fromJson(response, User::class.java)
+
+                    if(update != null)
+                        Toast.makeText(this@EditProfileActivity, "Data Berhasil Update", Toast.LENGTH_SHORT).show()
+
+                }, Response.ErrorListener { error ->
+                    try {
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            error.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(this@EditProfileActivity, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }){
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(update)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+            queue!!.add(stringRequest)
+        }
     }
 }
