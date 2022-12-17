@@ -20,5 +20,11 @@ class SepatuApi {
         val ADD_SEPATU = BASE_URL + "sepatu"
         val UPDATE_SEPATU = BASE_URL + "sepatu/"
         val DELETE_SEPATU = BASE_URL + "sepatu/"
+
+        val GET_ALL_KAOSKAKI = BASE_URL + "kaosKaki"
+        val GET_BY_ID_KAOSKAKI = BASE_URL + "kaosKaki/"
+        val ADD_KAOSKAKI = BASE_URL + "kaosKaki"
+        val UPDATE_KAOSKAKI = BASE_URL + "kaosKaki/"
+        val DELETE_KAOSKAKI = BASE_URL + "kaosKaki/"
     }
 }
