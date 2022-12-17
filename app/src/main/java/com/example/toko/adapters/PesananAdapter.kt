@@ -60,7 +60,6 @@ class PesananAdapter(private var pesananList: List<Pesanan>, context: Context):
                     }
                 }
                 .show()
-
         }
 
         holder.cvPesanan.setOnClickListener {
@@ -69,8 +68,6 @@ class PesananAdapter(private var pesananList: List<Pesanan>, context: Context):
             if(context is PesananActivity)
                 context.startActivityForResult(i, PesananActivity.LAUNCH_ADD_ACTIVITY)
         }
-
-
     }
 
     override fun getFilter(): Filter {

@@ -27,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_barang -> {
-                    changeFragment(FragmentBarang())
+                    changeFragment(FragmentSepatu())
                     true
                 }
                 R.id.menu_lokasi -> {

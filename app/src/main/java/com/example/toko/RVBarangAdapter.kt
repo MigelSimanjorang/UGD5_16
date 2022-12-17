@@ -11,7 +11,7 @@ import com.example.toko.entity.Barang
 class RVBarangAdapter(private val data: Array<Barang>) : RecyclerView.Adapter<RVBarangAdapter.viewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
         // Disini kita menghubungkan layout item recycler view kita
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_barang, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_sepatu, parent, false)
         return viewHolder(itemView)
     }
 

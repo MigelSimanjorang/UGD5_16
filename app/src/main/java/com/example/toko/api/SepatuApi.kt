@@ -2,7 +2,7 @@ package com.example.toko.api
 
 class SepatuApi {
     companion object {
-        val BASE_URL = "http://192.168.158.252/ProjectApiVolley/project_api_volley/public/api/"
+        val BASE_URL = "http://10.113.53.53/ProjectApiVolley/project_api_volley/public/api/"
 
         val register = BASE_URL + "register"
         val login = BASE_URL + "login"
@@ -14,5 +14,11 @@ class SepatuApi {
         val ADD_PESANAN = BASE_URL + "pesanan"
         val UPDATE_PESANAN = BASE_URL + "pesanan/"
         val DELETE_PESANAN = BASE_URL + "pesanan/"
+
+        val GET_ALL_SEPATU = BASE_URL + "sepatu"
+        val GET_BY_ID_SEPATU = BASE_URL + "sepatu/"
+        val ADD_SEPATU = BASE_URL + "sepatu"
+        val UPDATE_SEPATU = BASE_URL + "sepatu/"
+        val DELETE_SEPATU = BASE_URL + "sepatu/"
     }
 }
