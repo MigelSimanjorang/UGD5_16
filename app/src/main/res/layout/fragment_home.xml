@@ -57,6 +57,16 @@
                 android:text="SCAN DISINI"
                 android:textColor="@color/black" />
 
+            <Button
+                android:id="@+id/lokasi_toko"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/white"
+                android:text="LIHAT LOKASI"
+                android:textColor="@color/black" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

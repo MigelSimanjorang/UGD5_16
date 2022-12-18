@@ -1,6 +1,7 @@
 package com.example.toko.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +16,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.toko.HomeActivity
-import com.example.toko.R
+import com.example.toko.*
 import com.example.toko.api.SepatuApi
 import com.example.toko.models.KaosKaki
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -73,14 +73,12 @@ class KaosKakiAdapter(private var kaosKakiList: List<KaosKaki>, context: Context
                 .show()
         }
 
-//        holder.cvSepatu.setOnClickListener {
-//            val i = Intent(context, FragmentSepatu::class.java)
-//            i.putExtra("id", sepatu.id)
-//            if(context is FragmentSepatu)
-//                context.startActivityForResult(i, HomeActivity.LAUNCH_ADD_ACTIVITY)
-//        }
-
-
+        holder.cvKaosKaki.setOnClickListener {
+            val intent = Intent(context, TambahKaosKakiActivity::class.java)
+            intent.putExtra("id", kaosKaki.id)
+            if(context is HomeActivity)
+                context.startActivityForResult(intent, FragmentKaosKaki.LAUNCH_ADD_ACTIVITY)
+        }
     }
 
     override fun getFilter(): Filter {

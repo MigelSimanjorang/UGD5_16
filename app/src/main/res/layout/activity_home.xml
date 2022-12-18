@@ -25,8 +25,4 @@
             android:scrollIndicators="left"/>
     </FrameLayout>
 
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

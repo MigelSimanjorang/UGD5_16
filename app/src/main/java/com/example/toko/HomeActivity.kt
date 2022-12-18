@@ -1,9 +1,11 @@
 package com.example.toko
 
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -26,14 +28,18 @@ class HomeActivity : AppCompatActivity() {
                     changeFragment(FragmentKaosKaki())
                     true
                 }
-                R.id.menu_barang -> {
+                R.id.menu_sepatu -> {
                     changeFragment(FragmentSepatu())
                     true
                 }
-                R.id.menu_lokasi -> {
-                    changeFragment(FragmentLokasi())
+                R.id.menu_outfit -> {
+                    changeFragment(FragmentOutfit())
                     true
                 }
+//                R.id.menu_lokasi -> {
+//                    changeFragment(FragmentLokasi())
+//                    true
+//                }
                 R.id.menu_profile -> {
                     changeFragment(FragmentProfile())
                     true

@@ -48,6 +48,7 @@ class PesananActivityTestEdit {
             )
         )
         recyclerView.perform(actionOnItemAtPosition<ViewHolder>(1, click()))
+        onView(isRoot()).perform(waitFor(3000))
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:

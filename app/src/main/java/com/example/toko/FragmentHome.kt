@@ -28,13 +28,18 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val layoutManager = LinearLayoutManager(context)
-        val adapter : RVHomeAdapter = RVHomeAdapter()
 
         qrCode.setOnClickListener() {
             val intent = Intent(context, QrCodeActivity::class.java)
             startActivity(intent)
         }
 
+        lokasi_toko.setOnClickListener {
+            val supportFragment = FragmentLokasi()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .add(this.id, supportFragment)
+                .addToBackStack("ok")
+                .commit()
+        }
     }
 }

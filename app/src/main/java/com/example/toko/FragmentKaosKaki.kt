@@ -17,13 +17,11 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.toko.adapters.KaosKakiAdapter
-
 import com.example.toko.api.SepatuApi
 import com.example.toko.models.KaosKaki
-import com.example.toko.models.Sepatu
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_sepatu.*
+import kotlinx.android.synthetic.main.fragment_kaos_kaki.*
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 
@@ -49,7 +47,6 @@ class FragmentKaosKaki : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        setContentView(R.layout.fragment_sepatu)
 
         queue = Volley.newRequestQueue(requireContext())
         srKaosKaki = view.findViewById(R.id.sr_kaosKaki)
@@ -66,7 +63,6 @@ class FragmentKaosKaki : Fragment() {
                 return false
             }
         })
-
 
         btn_create.setOnClickListener() {
             val intent = Intent(context, TambahKaosKakiActivity::class.java)
@@ -122,7 +118,7 @@ class FragmentKaosKaki : Fragment() {
         queue!!.add(stringRequest)
     }
 
-    public fun deleteKaosKaki(id: Long){
+    fun deleteKaosKaki(id: Long){
         val stringRequest: StringRequest = object :
             StringRequest(Method.DELETE, SepatuApi.DELETE_KAOSKAKI+id, Response.Listener { response ->
 

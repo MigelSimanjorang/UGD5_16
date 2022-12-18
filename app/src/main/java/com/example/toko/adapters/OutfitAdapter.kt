@@ -5,7 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
@@ -13,13 +16,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.toko.FragmentSepatu
-import com.example.toko.FragmentSepatu.Companion.LAUNCH_ADD_ACTIVITY
+import com.example.toko.FragmentOutfit
 import com.example.toko.HomeActivity
 import com.example.toko.R
-import com.example.toko.TambahSepatuActivity
+import com.example.toko.TambahOutfitActivity
 import com.example.toko.api.SepatuApi
-import com.example.toko.models.Sepatu
+import com.example.toko.models.Outfit
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -27,58 +29,58 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SepatuAdapter(private var sepatuList: List<Sepatu>, context: Context):
-    RecyclerView.Adapter<SepatuAdapter.ViewHolder>(), Filterable {
+class OutfitAdapter(private var outfitList: List<Outfit>, context: Context):
+    RecyclerView.Adapter<OutfitAdapter.ViewHolder>(), Filterable {
 
-    private var filteredSepatuList: MutableList<Sepatu>
+    private var filteredOutfitList: MutableList<Outfit>
     private val context: Context
     private var queue: RequestQueue? = null
 
     init {
-        filteredSepatuList = ArrayList(sepatuList)
+        filteredOutfitList = ArrayList(outfitList)
         this.context = context
         queue = Volley.newRequestQueue(context)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_sepatu, parent, false)
+        val view = inflater.inflate(R.layout.item_outfit, parent, false)
         return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return filteredSepatuList.size
+        return filteredOutfitList.size
     }
 
-    fun setSepatuList(sepatuList: Array<Sepatu>){
-        this.sepatuList = sepatuList.toList()
-        filteredSepatuList = sepatuList.toMutableList()
+    fun setOutfitList(outfitList: Array<Outfit>){
+        this.outfitList = outfitList.toList()
+        filteredOutfitList = outfitList.toMutableList()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val sepatu = filteredSepatuList[position]
-        holder.nama_sepatu.text = sepatu.namaSepatu
-        holder.jumlah.text =  sepatu.jumlah
-        holder.ukuran.text =  sepatu.ukuran
-        holder.harga.text =  sepatu.harga
+        val outfit = filteredOutfitList[position]
+        holder.nama_outfit.text = outfit.namaOutfit
+        holder.jumlah.text =  outfit.jumlah
+        holder.ukuran.text =  outfit.ukuran
+        holder.harga.text =  outfit.harga
 
         holder.btnDelete.setOnClickListener {
             val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
             materialAlertDialogBuilder.setTitle("Konfirmasi")
-                .setMessage("Apakah anda yakin ingin menghapus sepatu ini?")
+                .setMessage("Apakah anda yakin ingin menghapus outfit ini?")
                 .setNegativeButton("Batal", null)
                 .setPositiveButton("Hapus"){_,_ ->
-                    if (context is HomeActivity) sepatu.id?.let { it1 -> deleteSepatu(it1)
+                    if (context is HomeActivity) outfit.id?.let { it1 -> deleteOutfit(it1)
                     }
                 }
                 .show()
         }
 
-        holder.cvSepatu.setOnClickListener {
-            val intent = Intent(context, TambahSepatuActivity::class.java)
-            intent.putExtra("id", sepatu.id)
+        holder.cvOutfit.setOnClickListener {
+            val intent = Intent(context, TambahOutfitActivity::class.java)
+            intent.putExtra("id", outfit.id)
             if(context is HomeActivity)
-                context.startActivityForResult(intent, FragmentSepatu.LAUNCH_ADD_ACTIVITY)
+                context.startActivityForResult(intent, FragmentOutfit.LAUNCH_ADD_ACTIVITY)
         }
     }
 
@@ -86,15 +88,15 @@ class SepatuAdapter(private var sepatuList: List<Sepatu>, context: Context):
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 val charSequenceString = charSequence.toString()
-                val filtered: MutableList<Sepatu> = java.util.ArrayList()
+                val filtered: MutableList<Outfit> = java.util.ArrayList()
                 if(charSequenceString.isEmpty()){
-                    filtered.addAll(sepatuList)
+                    filtered.addAll(outfitList)
                 }else{
-                    for (sepatu in sepatuList){
-                        if(sepatu.namaSepatu.lowercase(Locale.getDefault())
+                    for (outfit in outfitList){
+                        if(outfit.namaOutfit.lowercase(Locale.getDefault())
                                 .contains(charSequenceString.lowercase(Locale.getDefault()))
 
-                        )filtered.add(sepatu)
+                        )filtered.add(outfit)
 
                     }
                 }
@@ -105,37 +107,37 @@ class SepatuAdapter(private var sepatuList: List<Sepatu>, context: Context):
             }
 
             override fun publishResults( CharSequence: CharSequence, filterResults: FilterResults) {
-                filteredSepatuList.clear()
-                filteredSepatuList.addAll(filterResults.values as List<Sepatu>)
+                filteredOutfitList.clear()
+                filteredOutfitList.addAll(filterResults.values as List<Outfit>)
                 notifyDataSetChanged()
             }
         }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var nama_sepatu: TextView
+        var nama_outfit: TextView
         var jumlah: TextView
         var ukuran: TextView
         var harga: TextView
         var btnDelete: ImageButton
-        var cvSepatu: CardView
+        var cvOutfit: CardView
 
         init {
-            nama_sepatu = itemView.findViewById(R.id.nama_sepatu)
+            nama_outfit = itemView.findViewById(R.id.nama_outfit)
             jumlah = itemView.findViewById(R.id.jumlah)
             ukuran = itemView.findViewById(R.id.ukuran)
             harga = itemView.findViewById(R.id.harga)
             btnDelete = itemView.findViewById(R.id.btnDelete)
-            cvSepatu = itemView.findViewById(R.id.cv_sepatu)
+            cvOutfit = itemView.findViewById(R.id.cv_outfit)
         }
 
     }
-    fun deleteSepatu(id: Long){
+    fun deleteOutfit(id: Long){
         val stringRequest: StringRequest = object :
-            StringRequest(Method.DELETE, SepatuApi.DELETE_SEPATU+id, Response.Listener { response ->
+            StringRequest(Method.DELETE, SepatuApi.DELETE_OUTFIT+id, Response.Listener { response ->
 
                 val gson = Gson()
-                var sepatu = gson.fromJson(response, Sepatu::class.java)
+                var outfit = gson.fromJson(response, Outfit::class.java)
 //                if(sepatu != null)
 //                    Toast.makeText(this, "Sepatu Berhasil Dihapus", Toast.LENGTH_SHORT).show()
 //

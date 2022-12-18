@@ -47,7 +47,6 @@ class FragmentSepatu : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        setContentView(R.layout.fragment_sepatu)
 
         queue = Volley.newRequestQueue(requireContext())
         srSepatu = view.findViewById(R.id.sr_sepatu)
@@ -64,7 +63,6 @@ class FragmentSepatu : Fragment() {
                 return false
             }
         })
-
 
         btn_create.setOnClickListener() {
             val intent = Intent(context, TambahSepatuActivity::class.java)
@@ -120,7 +118,7 @@ class FragmentSepatu : Fragment() {
         queue!!.add(stringRequest)
     }
 
-    public fun deleteSepatu(id: Long){
+    fun deleteSepatu(id: Long){
         val stringRequest: StringRequest = object :
             StringRequest(Method.DELETE, SepatuApi.DELETE_SEPATU+id, Response.Listener { response ->
 

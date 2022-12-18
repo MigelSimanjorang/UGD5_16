@@ -8,18 +8,23 @@
 
     <item
         android:id="@+id/menu_kaos_kaki"
-        android:icon="@drawable/ic_baseline_do_not_step_24"
+        android:icon="@drawable/ic_baseline_shopping_bag_24"
         android:title="Kaos Kaki"/>
 
     <item
-        android:id="@+id/menu_barang"
-        android:icon="@drawable/ic_shopping_cart_24"
-        android:title="Barang"/>
+        android:id="@+id/menu_sepatu"
+        android:icon="@drawable/ic_baseline_shopping_bag_24"
+        android:title="Sepatu"/>
 
     <item
-        android:id="@+id/menu_lokasi"
-        android:icon="@drawable/ic_baseline_location_on_24"
-        android:title="Lokasi"/>
+        android:id="@+id/menu_outfit"
+        android:icon="@drawable/ic_baseline_shopping_bag_24"
+        android:title="Outfit"/>
+
+<!--    <item-->
+<!--        android:id="@+id/menu_lokasi"-->
+<!--        android:icon="@drawable/ic_baseline_location_on_24"-->
+<!--        android:title="Lokasi"/>-->
 
     <item
         android:id="@+id/menu_profile"

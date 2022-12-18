@@ -64,30 +64,30 @@ class TambahSepatuActivity : AppCompatActivity() {
 
     private fun getSepatuById(id: Long){
         val stringRequest: StringRequest = object :
-            StringRequest(
-                Method.GET, SepatuApi.GET_BY_ID_SEPATU + id,
-                { response ->
-                    val sepatu = Gson().fromJson(response, Sepatu::class.java)
+            StringRequest(Method.GET, SepatuApi.GET_BY_ID_SEPATU + id, { response ->
+                val gson = Gson()
+                val jsonObject = JSONObject(response)
+                var sepatu = gson.fromJson(jsonObject.getJSONObject("data").toString(), Sepatu::class.java)
+                println(sepatu.namaSepatu)
 
-                    binding!!.namaSepatu.setText(sepatu.namaSepatu)
-                    binding!!.jumlah.setText(sepatu.jumlah)
-                    binding!!.ukuran.setText(sepatu.ukuran)
-                    binding!!.harga.setText(sepatu.harga)
-                    Toast.makeText(this@TambahSepatuActivity,"Sepatu berhasil diambil", Toast.LENGTH_SHORT).show()
-                },
-                Response.ErrorListener{ error ->
-                    try{
-                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
-                        val errors = JSONObject(responseBody)
-                        Toast.makeText(
-                            this,
-                            errors.getString("message"),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } catch (e: Exception){
-                        Toast.makeText(this@TambahSepatuActivity, e.message, Toast.LENGTH_SHORT).show()
-                    }
-                }) {
+                binding!!.namaSepatu.setText(sepatu.namaSepatu)
+                binding!!.jumlah.setText(sepatu.jumlah)
+                binding!!.ukuran.setText(sepatu.ukuran)
+                binding!!.harga.setText(sepatu.harga)
+
+            }, Response.ErrorListener{ error ->
+                try{
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } catch (e: Exception){
+                    Toast.makeText(this@TambahSepatuActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
                 val headers = HashMap<String, String>()
